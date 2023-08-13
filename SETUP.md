@@ -20,3 +20,4 @@ Use the Arduino IDE
 ## Install Libraries:
 - https://github.com/NuclearPhoenixx/MQ135
 - https://github.com/GyverLibs/FastBot
+- https://github.com/arduino-libraries/NTPClient
