@@ -1,29 +1,27 @@
-#define telegram_bot
+#ifndef TELEGRAM_BOT
+#define TELEGRAM_BOT
 #include <FastBot.h>
 #include "credentials.h"
 
 class WifiConnection
 {
-    public:
-
+public:
     bool hasConnection()
     {
         return WiFi.status() != WL_CONNECTED;
     }
-
 
     void connectWiFi()
     {
         WiFi.begin(WIFI_SSID, WIFI_PASS);
         while (hasConnection())
         {
-          delay(500);
-          Serial.print(".");
-          if (millis() > 15000)
-            ESP.restart();
+            delay(500);
+            Serial.print(".");
+            if (millis() > 15000)
+                ESP.restart();
         }
     }
-    
 };
 
 class TelegramBot
@@ -31,6 +29,7 @@ class TelegramBot
 private:
     FastBot fastBot{BOT_TOKEN};
     WifiConnection wifiConnection{};
+
 public:
     TelegramBot()
     {
@@ -39,12 +38,12 @@ public:
 
     void initialize()
     {
-      wifiConnection.connectWiFi();
+        wifiConnection.connectWiFi();
     }
 
     void sendMessage(String message)
     {
         fastBot.sendMessage(message);
     }
-
 };
+#endif
