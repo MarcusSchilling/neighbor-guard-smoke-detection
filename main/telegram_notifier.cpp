@@ -16,9 +16,53 @@ public:
 
     void update(const Measurement &measurement) override
     {
-        if (measurement.getSensor() == SensorType::MQ135 && notificationPolicy.shouldNotify(measurement))
+        // Smoke detected via ppm value
+        if (measurement.getSensor() == SensorType::MQ135 && notificationPolicy.notifyOfSmoke(measurement))
         {
-            telegramBot.sendMessage(String("Sensor MQ135 \nPPM: " + String(measurement.getPM()) + "\nRAW Resistance: " + String(measurement.getResistance())));
+            telegramBot.sendMessage("SMOKE detected!");
+            telegramBot.sendMessage(
+                String(
+                    "\nSensor MQ135 \nPPM: " + String(measurement.getPPM()) + 
+                    " ppm \nRAW Resistance: " + String(measurement.getResistance()) +
+                    " Ohm \nCorrected PPM: " + String(measurement.getCorrectedPPM()) +
+                    " ppm"
+                )
+            );
+        }
+        // Calibration: RZero values
+        if(measurement.getSensor() == SensorType::MQ135 && notificationPolicy.notifyOfCalibration(measurement))
+        {
+            telegramBot.sendMessage("Calibration values:");
+            telegramBot.sendMessage(
+                String(
+                    "\nSensor MQ135 \nRZero: " + String(measurement.getRZero()) +
+                    " Ohm \nCorrected RZero: " + String(measurement.getCorrectedRZero()) +
+                    " Ohm"
+                )
+            );
+        }
+        // Humidity & Temperature values
+        if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfHeat(measurement))
+        {
+            telegramBot.sendMessage("Heat WARNING today!");
+            telegramBot.sendMessage(
+                String(
+                    "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
+                    " C \nHumidity: " + String(measurement.readHumidity()) +
+                    " %"
+                )
+            );
+        }
+        else if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfCool(measurement))
+        {
+            telegramBot.sendMessage("Cooled down enough to air out. Watch for humidity & smoke WARNING...");
+            telegramBot.sendMessage(
+                String(
+                    "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
+                    " C \nHumidity: " + String(measurement.readHumidity()) +
+                    " %"
+                )
+            );
         }
     }
 };
