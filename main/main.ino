@@ -10,6 +10,21 @@
 const int ANALOGPIN = 0;
 MQ135 gasSensor = MQ135(ANALOGPIN);
 
+// Sensor DHT11
+#include <DHT.h>
+const int DIGITALPIN = D2;
+const int DHTTYPE = DHT11; // DHT11 or DHT22, depends on your sensor
+DHT hygroSensor = DHT(DIGITALPIN, DHTTYPE);
+bool isUseHygro = true;  // Set to false to only use gas sensor
+bool isCalibration = true; // Set to false to skip gas sensor calibration 
+                          // IMPORTANT! For true a hygrometer sensor MUST be attached
+
+float resistance = 0.0;
+float ppm = 0.0;
+float cppm = 0.0;
+float humidity = 0.0;
+float temperature = 0.0;
+
 void setup()
 {
   // put your setup code here, to run once:
@@ -17,14 +32,70 @@ void setup()
   Subject subject;
   Observer *telegramNotifier = new TelegramNotifier();
   subject.attach(telegramNotifier);
+  while (isCalibration)
+  {
+    // Initialization & Calibration
+    Serial.println("Initialization started");
+    hygroSensor.begin(); // Begin DHT11 sensor communication
+    Serial.println("DHT11 initialization complete");
+    temperature = hygroSensor.readTemperature();
+    humidity = hygroSensor.readHumidity();
+    Serial.print("Humidity: ");
+    Serial.println(humidity);
+    Serial.print("Temperature: ");
+    Serial.println(temperature);
+    Measurement measurementHygro(SensorType::DHT, 0.0, 0.0, 0.0, 0.0, 0.0, temperature, humidity);
+    bool hygroSuccess = !(isnan(humidity) || isnan(temperature));
+    Serial.println(String(hygroSuccess));
+    if(hygroSuccess)
+    {
+      ppm = gasSensor.getPPM();
+      cppm = gasSensor.getCorrectedPPM(temperature, humidity);
+      resistance = gasSensor.getResistance();
+      Measurement measurementGas(SensorType::MQ135, 0.0, 0.0, ppm, cppm, resistance);
+      Serial.println("Initialization success!");
+      isCalibration = false;
+      break;
+    }
+    else
+    {
+      return;
+    }
+  }
+
   while (true)
   {
-    float ppm = gasSensor.getPPM();
-    float resistance = gasSensor.getResistance();
-    Measurement measurement(SensorType::MQ135, ppm, resistance);
-    subject.notify(measurement);
+    Serial.println("Measurement started");
+    float cppm = gasSensor.getCorrectedPPM(22.0, 50.0); // 22°C & 50% Humidity as defaults
+    if(isUseHygro)
+    {
+      Serial.println("... using Hygrometer");
+      temperature = hygroSensor.readTemperature();
+      humidity = hygroSensor.readHumidity();
+      cppm = gasSensor.getCorrectedPPM(temperature, humidity);
+    }
+    Measurement measurementHygro(SensorType::DHT, 0.0, 0.0, 0.0, 0.0, 0.0, temperature, humidity);
+    ppm = gasSensor.getPPM();
+    resistance = gasSensor.getResistance();
+    Measurement measurementGas(SensorType::MQ135, 0.0, 0.0, ppm, cppm, resistance);
+    
+    Serial.print("Humidity: ");
+    Serial.println(humidity);
+    Serial.print("Temperature: ");
+    Serial.println(temperature);
+    Serial.print("Resistance: ");
+    Serial.println(resistance);
+    Serial.print("PPM: ");
+    Serial.print(ppm);
+    Serial.println(" ppm");
+    Serial.print("Corrected PPM: ");
+    Serial.print(cppm);
+    Serial.println(" ppm");
+
+    subject.notify(measurementGas);
+    subject.notify(measurementHygro);
     delay(15000);
-  }
+    }
 }
 
 void loop()
