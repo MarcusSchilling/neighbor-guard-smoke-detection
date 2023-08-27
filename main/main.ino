@@ -19,11 +19,13 @@ bool isUseHygro = true;  // Set to false to only use gas sensor
 bool isCalibration = true; // Set to false to skip gas sensor calibration 
                           // IMPORTANT! For true a hygrometer sensor MUST be attached
 
-float resistance = 0.0;
+float rz = 0.0;
+float crz = 0.0;
 float ppm = 0.0;
 float cppm = 0.0;
-float humidity = 0.0;
+float resistance = 0.0;
 float temperature = 0.0;
+float humidity = 0.0;
 
 void setup()
 {
@@ -49,10 +51,12 @@ void setup()
     Serial.println(String(hygroSuccess));
     if(hygroSuccess)
     {
+      rz = gasSensor.getRZero();
+      crz = gasSensor.getCorrectedRZero(temperature, humidity);
       ppm = gasSensor.getPPM();
       cppm = gasSensor.getCorrectedPPM(temperature, humidity);
       resistance = gasSensor.getResistance();
-      Measurement measurementGas(SensorType::MQ135, 0.0, 0.0, ppm, cppm, resistance);
+      Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance);
       Serial.println("Initialization success!");
       isCalibration = false;
       break;
@@ -73,11 +77,13 @@ void setup()
       temperature = hygroSensor.readTemperature();
       humidity = hygroSensor.readHumidity();
       cppm = gasSensor.getCorrectedPPM(temperature, humidity);
+      crz = gasSensor.getCorrectedRZero(temperature, humidity);
     }
     Measurement measurementHygro(SensorType::DHT, 0.0, 0.0, 0.0, 0.0, 0.0, temperature, humidity);
+    rz = gasSensor.getRZero();
     ppm = gasSensor.getPPM();
     resistance = gasSensor.getResistance();
-    Measurement measurementGas(SensorType::MQ135, 0.0, 0.0, ppm, cppm, resistance);
+    Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance);
     
     Serial.print("Humidity: ");
     Serial.println(humidity);
@@ -91,6 +97,12 @@ void setup()
     Serial.print("Corrected PPM: ");
     Serial.print(cppm);
     Serial.println(" ppm");
+    Serial.print("RRero: ");
+    Serial.print(rz);
+    Serial.println(" Ohm");
+    Serial.print("Corrected RZero: ");
+    Serial.print(crz);
+    Serial.println(" Ohm");
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);
