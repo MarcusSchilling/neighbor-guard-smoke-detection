@@ -12,7 +12,7 @@ class Measurement
 private:
     SensorType sensor;
     float RZero;
-    float cRZero;
+    float correctedRZero;
     float PPM;
     float cPPM;
     float resistance;
@@ -30,7 +30,7 @@ public:
         float temp = 0.0, 
         float hum = 0.0
         ) 
-        : sensor(s), RZero(rz), cRZero(crz), PPM(ppm), cPPM(cppm), resistance(resistance), temperature(temp), humidity(hum) {}
+        : sensor(s), RZero(rz), correctedRZero(crz), PPM(ppm), cPPM(cppm), resistance(resistance), temperature(temp), humidity(hum) {}
 
     SensorType getSensor() const
     {
@@ -44,7 +44,7 @@ public:
 
     float getCorrectedRZero() const
     {
-        return cRZero;
+        return correctedRZero;
     }
 
     float getCorrectedPPM() const
