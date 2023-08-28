@@ -1,8 +1,11 @@
 #ifndef TELEGRAM_NOTIFIER
 #define TELEGRAM_NOTIFIER
+
+#include "constants.h"
 #include "observer.cpp"
 #include "telegram_bot.cpp"
 #include "notification_policy.cpp"
+
 class TelegramNotifier : public Observer
 {
 public:
@@ -19,10 +22,13 @@ public:
         // Smoke detected via ppm value
         if (measurement.getSensor() == SensorType::MQ135 && notificationPolicy.notifyOfSmoke(measurement))
         {
-            telegramBot.sendMessage("SMOKE detected!");
+            if(!isConstantMQ135Notify)
+                {
+                    telegramBot.sendMessage("SMOKE detected!");
+                }
             telegramBot.sendMessage(
                 String(
-                    "\nSensor MQ135 \nPPM: " + String(measurement.getPPM()) + 
+                    "\nSensor MQ135 \nPPM: " + String(measurement.getPPM()) +
                     " ppm \nRAW Resistance: " + String(measurement.getResistance()) +
                     " Ohm \nCorrected PPM: " + String(measurement.getCorrectedPPM()) +
                     " ppm"
@@ -56,6 +62,16 @@ public:
         else if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfCool(measurement))
         {
             telegramBot.sendMessage("Cooled down enough to air out. Watch for humidity & smoke WARNING...");
+            telegramBot.sendMessage(
+                String(
+                    "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
+                    " C \nHumidity: " + String(measurement.readHumidity()) +
+                    " %"
+                )
+            );
+        }
+        if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfHumidity(measurement))
+        {
             telegramBot.sendMessage(
                 String(
                     "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
