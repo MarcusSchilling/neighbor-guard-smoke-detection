@@ -27,7 +27,7 @@ public:
         return (currentHour >= startHour && currentHour <= endHour);
     }
 
-    time_t getEpochTime() 
+    time_t getEpochTime()
     {
         return timeClient.getEpochTime();
     }

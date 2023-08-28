@@ -21,15 +21,15 @@ private:
 
 public:
     Measurement(
-        SensorType s, 
-        float rz = 0.0, 
-        float crz = 0.0, 
-        float ppm = 0.0, 
-        float cppm = 0.0, 
-        float resistance = 0.0, 
-        float temp = 0.0, 
+        SensorType s,
+        float rz = 0.0,
+        float crz = 0.0,
+        float ppm = 0.0,
+        float cppm = 0.0,
+        float resistance = 0.0,
+        float temp = 0.0,
         float hum = 0.0
-        ) 
+        )
         : sensor(s), RZero(rz), correctedRZero(crz), PPM(ppm), cPPM(cppm), resistance(resistance), temperature(temp), humidity(hum) {}
 
     SensorType getSensor() const
@@ -51,7 +51,7 @@ public:
     {
         return cPPM;
     }
-   
+
     float getPPM() const
     {
         return PPM;

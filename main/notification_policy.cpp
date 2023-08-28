@@ -1,6 +1,7 @@
 #ifndef NOTIFICATION_POLICY
 #define NOTIFICATION_POLICY
 
+#include "constants.h"
 #include "measurement.hpp"
 #include "time_manager.cpp"
 
@@ -8,8 +9,9 @@ class NotificationPolicy
 {
 private:
     TimeManager timeManager = TimeManager();
-    bool heatNotificationSentToday = false;
-    bool coolNotificationSentToday = false;
+    bool  isHeatNotificationSent = false;
+    bool isCoolNotificationSent = false;
+    bool isWetNotificationSent = false;
 
 public:
     NotificationPolicy()
@@ -18,7 +20,7 @@ public:
 
     bool notifyOfSmoke(const Measurement &measurement)
     {
-        if(timeManager.isTimeInRange(9, 23) && measurement.getCorrectedPPM() > 3.0) // ppm over 3.0
+        if((timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > THRESHOLD_CPPM) || isConstantMQ135Notify)
         {
           return true;
         }
@@ -27,7 +29,8 @@ public:
 
     bool notifyOfCalibration(const Measurement &measurement)
     {
-      if(timeManager.isTimeInRange(5, 6) && measurement.getRZero() > 0.0) // only between 5-6:00
+      if(timeManager.isTimeInRange(TIME_START_CALIBRATION, TIME_END_CALIBRATION) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION
+        && measurement.getRZero() < THRESHOLD_UPPER_CALIBRATION && isCalibrateSensor)
       {
         return true;
       }
@@ -36,20 +39,40 @@ public:
 
     bool notifyOfHeat(const Measurement &measurement)
     {
-      if(!heatNotificationSentToday && measurement.readTemperature() > 27.0) // °C
+      if(!isHeatNotificationSent && measurement.readTemperature() > THRESHOLD_HEAT)
       {
-        heatNotificationSentToday = true;
-        coolNotificationSentToday = false;
+        isHeatNotificationSent = true;
         return true;
+      }
+      else if(isHeatNotificationSent && measurement.readTemperature() < THRESHOLD_HEAT)
+      {
+        isHeatNotificationSent = false;
       }
       return false;
     }
     bool notifyOfCool(const Measurement &measurement)
     {
-      if(!coolNotificationSentToday && measurement.readTemperature() < 22.0) // °C
+      if(!isCoolNotificationSent && measurement.readTemperature() < THRESHOLD_COOL)
       {
-        heatNotificationSentToday = false;
-        coolNotificationSentToday = true;
+        isCoolNotificationSent = true;
+        return true;
+      }
+      else if(isCoolNotificationSent && measurement.readTemperature() > THRESHOLD_COOL)
+      {
+        isCoolNotificationSent = false;
+      }
+      return false;
+    }
+    bool notifyOfHumidity(const Measurement &measurement)
+    {
+      if(!isWetNotificationSent && measurement.readHumidity() > THRESHOLD_HUM)
+      {
+        isWetNotificationSent = true;
+        return true;
+      }
+      else if(isWetNotificationSent && measurement.readHumidity() < THRESHOLD_HUM)
+      {
+        isWetNotificationSent = false;
         return true;
       }
       return false;
