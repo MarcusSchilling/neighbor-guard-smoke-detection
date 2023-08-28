@@ -4,20 +4,16 @@
 #include "measurement.hpp"
 #include "observer.cpp"
 #include "telegram_notifier.cpp"
+#include "constants.h"
 
 // Sensor MQ135
-#include "MQ135.h"
-const int ANALOGPIN = 0;
-MQ135 gasSensor = MQ135(ANALOGPIN);
+#include <MQ135.h>
+// MQ135 gasSensor = MQ135(ANALOGPIN); // uncalibrated sensor
+MQ135 gasSensor = MQ135(ANALOGPIN, RZEROCALIBRATION); // calibrated sensor
 
 // Sensor DHT11
 #include <DHT.h>
-const int DIGITALPIN = D2;
-const int DHTTYPE = DHT11; // DHT11 or DHT22, depends on your sensor
 DHT hygroSensor = DHT(DIGITALPIN, DHTTYPE);
-bool isUseHygro = true;  // Set to false to only use gas sensor
-bool isCalibration = true; // Set to false to skip gas sensor calibration 
-                          // IMPORTANT! For true a hygrometer sensor MUST be attached
 
 float rz = 0.0;
 float crz = 0.0;
@@ -26,11 +22,12 @@ float cppm = 0.0;
 float resistance = 0.0;
 float temperature = 0.0;
 float humidity = 0.0;
+bool isCalibration = true;
 
 void setup()
 {
   // put your setup code here, to run once:
-  Serial.begin(115200); // Initialize the Serial monitor with the baud rate 115200
+  Serial.begin(BUADRATE);
   Subject subject;
   Observer *telegramNotifier = new TelegramNotifier();
   subject.attach(telegramNotifier);
@@ -70,7 +67,7 @@ void setup()
   while (true)
   {
     Serial.println("Measurement started");
-    float cppm = gasSensor.getCorrectedPPM(22.0, 50.0); // 22°C & 50% Humidity as defaults
+    float cppm = gasSensor.getCorrectedPPM(DEFAULT_TEMP, DEFAULT_HUM);
     if(isUseHygro)
     {
       Serial.println("... using Hygrometer");
@@ -84,7 +81,7 @@ void setup()
     ppm = gasSensor.getPPM();
     resistance = gasSensor.getResistance();
     Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance);
-    
+
     Serial.print("Humidity: ");
     Serial.println(humidity);
     Serial.print("Temperature: ");
@@ -106,7 +103,7 @@ void setup()
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);
-    delay(15000);
+    delay(DELAYTIME);
     }
 }
 
