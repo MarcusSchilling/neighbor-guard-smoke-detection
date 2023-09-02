@@ -12,7 +12,7 @@
 #define THRESHOLD_HUM 60.0 // %
 
 // Heat Warning
-#define THRESHOLD_HEAT 27.0  // °C
+#define THRESHOLD_HEAT 28.0  // °C
 
 // Sensor Calibration
 #define TIME_START_CALIBRATION 5
@@ -25,7 +25,7 @@
 // MQ135
 #include <MQ135.h>
 #define ANALOGPIN 0
-#define RZEROCALIBRATION 619.5  // Ohm
+#define RZEROCALIBRATION 510  // Ohm
 #define DEFAULT_TEMP 22.0  // °c
 #define DEFAULT_HUM 30.0  // %
 
