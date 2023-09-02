@@ -22,63 +22,53 @@ public:
         // Smoke detected via ppm value
         if (notificationPolicy.notifyOfSmoke(measurement))
         {
-            if(!isConstantMQ135Notify)
-                {
-                    telegramBot.sendMessage("SMOKE detected!");
-                }
+            if (!isConstantMQ135Notify)
+            {
+                telegramBot.sendMessage("SMOKE detected!");
+            }
             telegramBot.sendMessage(
                 String(
                     "\nSensor MQ135 \nPPM: " + String(measurement.getPPM()) +
                     " ppm \nRAW Resistance: " + String(measurement.getResistance()) +
                     " Ohm \nCorrected PPM: " + String(measurement.getCorrectedPPM()) +
-                    " ppm"
-                )
-            );
+                    " ppm"));
         }
         // Calibration: RZero values
-        if(notificationPolicy.notifyOfCalibration(measurement))
+        if (notificationPolicy.notifyOfCalibration(measurement))
         {
             telegramBot.sendMessage("Calibration values:");
             telegramBot.sendMessage(
                 String(
                     "\nSensor MQ135 \nRZero: " + String(measurement.getRZero()) +
                     " Ohm \nCorrected RZero: " + String(measurement.getCorrectedRZero()) +
-                    " Ohm"
-                )
-            );
+                    " Ohm"));
         }
         // Humidity & Temperature values
-        if(notificationPolicy.notifyOfHeat(measurement))
+        if (notificationPolicy.notifyOfHeat(measurement))
         {
             telegramBot.sendMessage("Heat WARNING today!");
             telegramBot.sendMessage(
                 String(
                     "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
                     " C \nHumidity: " + String(measurement.readHumidity()) +
-                    " %"
-                )
-            );
+                    " %"));
         }
-        else if(notificationPolicy.notifyOfCool(measurement))
+        else if (notificationPolicy.notifyOfCool(measurement))
         {
             telegramBot.sendMessage("Cooled down enough to air out. Watch for humidity & smoke WARNING...");
             telegramBot.sendMessage(
                 String(
                     "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
                     " C \nHumidity: " + String(measurement.readHumidity()) +
-                    " %"
-                )
-            );
+                    " %"));
         }
-        if(notificationPolicy.notifyOfHumidity(measurement))
+        if (notificationPolicy.notifyOfHumidity(measurement))
         {
             telegramBot.sendMessage(
                 String(
                     "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
                     " C \nHumidity: " + String(measurement.readHumidity()) +
-                    " %"
-                )
-            );
+                    " %"));
         }
     }
 };
