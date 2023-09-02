@@ -39,10 +39,6 @@ void setup()
     Serial.println("DHT11 initialization complete");
     temperature = hygroSensor.readTemperature();
     humidity = hygroSensor.readHumidity();
-    Serial.print("Humidity: ");
-    Serial.println(humidity);
-    Serial.print("Temperature: ");
-    Serial.println(temperature);
     Measurement measurementHygro(SensorType::DHT, 0.0, 0.0, 0.0, 0.0, 0.0, temperature, humidity);
     bool hygroSuccess = !(isnan(humidity) || isnan(temperature));
     Serial.println(String(hygroSuccess));
@@ -81,25 +77,6 @@ void setup()
     ppm = gasSensor.getPPM();
     resistance = gasSensor.getResistance();
     Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance);
-
-    Serial.print("Humidity: ");
-    Serial.println(humidity);
-    Serial.print("Temperature: ");
-    Serial.println(temperature);
-    Serial.print("Resistance: ");
-    Serial.println(resistance);
-    Serial.print("PPM: ");
-    Serial.print(ppm);
-    Serial.println(" ppm");
-    Serial.print("Corrected PPM: ");
-    Serial.print(cppm);
-    Serial.println(" ppm");
-    Serial.print("RRero: ");
-    Serial.print(rz);
-    Serial.println(" Ohm");
-    Serial.print("Corrected RZero: ");
-    Serial.print(crz);
-    Serial.println(" Ohm");
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);

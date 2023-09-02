@@ -20,7 +20,7 @@ public:
     void update(const Measurement &measurement) override
     {
         // Smoke detected via ppm value
-        if (measurement.getSensor() == SensorType::MQ135 && notificationPolicy.notifyOfSmoke(measurement))
+        if (notificationPolicy.notifyOfSmoke(measurement))
         {
             if(!isConstantMQ135Notify)
                 {
@@ -36,7 +36,7 @@ public:
             );
         }
         // Calibration: RZero values
-        if(measurement.getSensor() == SensorType::MQ135 && notificationPolicy.notifyOfCalibration(measurement))
+        if(notificationPolicy.notifyOfCalibration(measurement))
         {
             telegramBot.sendMessage("Calibration values:");
             telegramBot.sendMessage(
@@ -48,7 +48,7 @@ public:
             );
         }
         // Humidity & Temperature values
-        if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfHeat(measurement))
+        if(notificationPolicy.notifyOfHeat(measurement))
         {
             telegramBot.sendMessage("Heat WARNING today!");
             telegramBot.sendMessage(
@@ -59,7 +59,7 @@ public:
                 )
             );
         }
-        else if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfCool(measurement))
+        else if(notificationPolicy.notifyOfCool(measurement))
         {
             telegramBot.sendMessage("Cooled down enough to air out. Watch for humidity & smoke WARNING...");
             telegramBot.sendMessage(
@@ -70,7 +70,7 @@ public:
                 )
             );
         }
-        if(measurement.getSensor() == SensorType::DHT && notificationPolicy.notifyOfHumidity(measurement))
+        if(notificationPolicy.notifyOfHumidity(measurement))
         {
             telegramBot.sendMessage(
                 String(

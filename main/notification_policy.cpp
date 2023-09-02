@@ -20,7 +20,7 @@ public:
 
     bool notifyOfSmoke(const Measurement &measurement)
     {
-        if((timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > THRESHOLD_CPPM) || isConstantMQ135Notify)
+        if(measurement.getSensor() == SensorType::MQ135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > THRESHOLD_CPPM) || isConstantMQ135Notify)
         {
           return true;
         }
@@ -29,7 +29,7 @@ public:
 
     bool notifyOfCalibration(const Measurement &measurement)
     {
-      if(timeManager.isTimeInRange(TIME_START_CALIBRATION, TIME_END_CALIBRATION) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION
+      if(measurement.getSensor() == SensorType::MQ135 && timeManager.isTimeInRange(TIME_START_CALIBRATION, TIME_END_CALIBRATION) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION
         && measurement.getRZero() < THRESHOLD_UPPER_CALIBRATION && isCalibrateSensor)
       {
         return true;
@@ -39,7 +39,7 @@ public:
 
     bool notifyOfHeat(const Measurement &measurement)
     {
-      if(!isHeatNotificationSent && measurement.readTemperature() > THRESHOLD_HEAT)
+      if(measurement.getSensor() == SensorType::DHT && !isHeatNotificationSent && measurement.readTemperature() > THRESHOLD_HEAT)
       {
         isHeatNotificationSent = true;
         return true;
@@ -52,7 +52,7 @@ public:
     }
     bool notifyOfCool(const Measurement &measurement)
     {
-      if(!isCoolNotificationSent && measurement.readTemperature() < THRESHOLD_COOL)
+      if(measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < THRESHOLD_COOL)
       {
         isCoolNotificationSent = true;
         return true;
@@ -65,7 +65,7 @@ public:
     }
     bool notifyOfHumidity(const Measurement &measurement)
     {
-      if(!isWetNotificationSent && measurement.readHumidity() > THRESHOLD_HUM)
+      if(measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > THRESHOLD_HUM)
       {
         isWetNotificationSent = true;
         return true;
