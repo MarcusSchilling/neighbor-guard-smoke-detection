@@ -21,3 +21,4 @@ Use the Arduino IDE
 - https://github.com/NuclearPhoenixx/MQ135
 - https://github.com/GyverLibs/FastBot
 - https://github.com/arduino-libraries/NTPClient
+- https://github.com/adafruit/DHT-sensor-library
