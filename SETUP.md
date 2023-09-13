@@ -23,8 +23,3 @@ Use the Arduino IDE
 - [NTPClient](https://github.com/arduino-libraries/NTPClient) --> Version 3.2.1
 - [DHT sensor library](https://github.com/adafruit/DHT-sensor-library) --> Version 1.4.4
 - [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA) --> Version 1.0.11
-
-
-- [ESPAsyncWebSrv](https://github.com/dvarrel/ESPAsyncWebSrv) --> Version 1.2.6
-- [ESPAsyncTCP](https://github.com/dvarrel/ESPAsyncTCP) --> Version 1.2.4
-- [AsyncElegantOTA](https://github.com/ayushsharma82/AsyncElegantOTA) --> Version 2.2.7
