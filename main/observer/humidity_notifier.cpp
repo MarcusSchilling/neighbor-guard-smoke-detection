@@ -1,8 +1,9 @@
 #ifndef HUMIDITY_NOTIFIER_CPP
 #define HUMIDITY_NOTIFIER_CPP
 #include "observer.cpp"
-#include "notification_policy.cpp"
-#include "telegram_bot.cpp"
+#include "../notification/notification_policy.cpp"
+#include "../notification/telegram_bot.cpp"
+#include "../domain/measurement.hpp"
 
 class HumidityNotifier : public Observer
 {

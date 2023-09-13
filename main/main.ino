@@ -1,21 +1,21 @@
 #ifndef MAIN
 #define MAIN
 
-#include "observer.cpp"
-#include "smoke_notifier.cpp"
-#include "temperature_notifier.cpp"
-#include "humidity_notifier.cpp"
+#include "observer/observer.cpp"
+#include "observer/smoke_notifier.cpp"
+#include "observer/temperature_notifier.cpp"
+#include "observer/humidity_notifier.cpp"
 
 // Networking
-#include "wifi_connection.h"
-#include "ota.h"
+#include "infrastructure/wifi_connection.h"
+#include "infrastructure/ota.h"
 
 // Configuration Files
-#include "constants.h"
-#include "credentials.h"
+#include "configuration/constants.h"
+#include "configuration/credentials.h"
 
 // General Sensor Configuration
-#include "measurement.hpp"
+#include "domain/measurement.hpp"
 
 // Sensor MQ135
 #include <MQ135.h>
