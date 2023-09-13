@@ -4,6 +4,7 @@
 #include "../configuration/constants.h"
 #include "../domain/measurement.hpp"
 #include "../infrastructure/time_manager.cpp"
+#include "../configuration/config.h"
 
 class NotificationPolicy
 {
@@ -20,7 +21,7 @@ public:
 
   bool notifyOfSmoke(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::MQ135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > THRESHOLD_CPPM) || isConstantMQ135Notify)
+    if (measurement.getSensor() == SensorType::MQ135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > s_cppmThreshold) || isConstantMQ135Notify)
     {
       return true;
     }
