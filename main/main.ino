@@ -2,9 +2,11 @@
 #define MAIN
 
 #include "observer.cpp"
+#include "smoke_notifier.cpp"
+#include "temperature_notifier.cpp"
+#include "humidity_notifier.cpp"
 
 // Networking
-#include "telegram_notifier.cpp"
 #include "wifi_connection.h"
 #include "ota.h"
 
@@ -44,8 +46,12 @@ void setup()
   Serial.println("Ready");
 
   Subject subject;
-  Observer *telegramNotifier = new TelegramNotifier();
+  Observer *telegramNotifier = new SmokeNotifier();
+  Observer *temperatureNotifier = new TemperatureNotifier();
+  Observer *humidityNotifier = new HumidityNotifier();
   subject.attach(telegramNotifier);
+  subject.attach(temperatureNotifier);
+  subject.attach(humidityNotifier);
   while (isCalibration)
   {
     // Initialization & Calibration
