@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include "measurement.hpp"
+#include "../domain/measurement.hpp"
 
 class Observer
 {

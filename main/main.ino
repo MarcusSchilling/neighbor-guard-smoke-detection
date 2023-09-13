@@ -1,19 +1,24 @@
 #ifndef MAIN
 #define MAIN
 
-#include "observer.cpp"
+#include "observer/observer.cpp"
+#include "observer/smoke_notifier.cpp"
+#include "observer/temperature_notifier.cpp"
+#include "observer/humidity_notifier.cpp"
 
 // Networking
-#include "telegram_notifier.cpp"
-#include "wifi_connection.h"
-#include "ota.h"
+#include "infrastructure/wifi_connection.h"
+#include "infrastructure/ota.h"
+
+#include <FastBot.h>
+#include "notification/message_reply.cpp"
 
 // Configuration Files
-#include "constants.h"
-#include "credentials.h"
+#include "configuration/constants.h"
+#include "configuration/credentials.h"
 
 // General Sensor Configuration
-#include "measurement.hpp"
+#include "domain/measurement.hpp"
 
 // Sensor MQ135
 #include <MQ135.h>
@@ -40,12 +45,17 @@ void setup()
   Serial.begin(BUADRATE);
   wifiConnection.connectWiFi();
   initializeOTA();
+  setupMessageReply();
 
   Serial.println("Ready");
 
   Subject subject;
-  Observer *telegramNotifier = new TelegramNotifier();
+  Observer *telegramNotifier = new SmokeNotifier();
+  Observer *temperatureNotifier = new TemperatureNotifier();
+  Observer *humidityNotifier = new HumidityNotifier();
   subject.attach(telegramNotifier);
+  subject.attach(temperatureNotifier);
+  subject.attach(humidityNotifier);
   while (isCalibration)
   {
     // Initialization & Calibration
@@ -78,6 +88,7 @@ void setup()
   while (true)
   {
     handleOTA();
+    tick();
     Serial.println("Measurement started");
     float cppm = gasSensor.getCorrectedPPM(DEFAULT_TEMP, DEFAULT_HUM);
     if (isUseHygro)
