@@ -4,7 +4,6 @@
 #define TIME_START_SMOKE_DETECTION 7
 #define TIME_END_SMOKE_DETECTION 24
 #define THRESHOLD_PPM 300.0         // ppm
-#define THRESHOLD_CPPM 600          // corrected ppm
 #define isConstantMQ135Notify false // if true always notify of values
 
 // Safe to air out room

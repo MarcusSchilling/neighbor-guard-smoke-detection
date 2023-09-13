@@ -1,6 +1,6 @@
 #ifndef WIFI_CONNECTION_H
 #define WIFI_CONNECTION_H
-#include "credentials.h"
+#include "../configuration/credentials.h"
 #include <ESP8266WiFi.h>
 
 class WifiConnection
@@ -10,8 +10,6 @@ public:
     {
         return WiFi.status() != WL_CONNECTED;
     }
-
-
 
     void connectWiFi()
     {
