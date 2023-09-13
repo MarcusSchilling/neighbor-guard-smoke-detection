@@ -11,7 +11,6 @@ private:
 public:
     TelegramBot()
     {
-        fastBot.sendMessage("Update 1");
         fastBot.setChatID(CHAT_ID);
     }
 
