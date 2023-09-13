@@ -1,18 +1,18 @@
-#ifndef TELEGRAM_NOTIFIER
-#define TELEGRAM_NOTIFIER
+#ifndef SMOKE_NOTIFIER
+#define SMOKE_NOTIFIER
 
 #include "constants.h"
 #include "observer.cpp"
 #include "telegram_bot.cpp"
 #include "notification_policy.cpp"
 
-class TelegramNotifier : public Observer
+class SmokeNotifier : public Observer
 {
 public:
     TelegramBot telegramBot;
     NotificationPolicy notificationPolicy;
 
-    TelegramNotifier()
+    SmokeNotifier()
     {
         telegramBot.initialize();
     }
@@ -43,33 +43,7 @@ public:
                     " Ohm \nCorrected RZero: " + String(measurement.getCorrectedRZero()) +
                     " Ohm"));
         }
-        // Humidity & Temperature values
-        if (notificationPolicy.notifyOfHeat(measurement))
-        {
-            telegramBot.sendMessage("Heat WARNING today!");
-            telegramBot.sendMessage(
-                String(
-                    "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
-                    " C \nHumidity: " + String(measurement.readHumidity()) +
-                    " %"));
-        }
-        else if (notificationPolicy.notifyOfCool(measurement))
-        {
-            telegramBot.sendMessage("Cooled down enough to air out. Watch for humidity & smoke WARNING...");
-            telegramBot.sendMessage(
-                String(
-                    "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
-                    " C \nHumidity: " + String(measurement.readHumidity()) +
-                    " %"));
-        }
-        if (notificationPolicy.notifyOfHumidity(measurement))
-        {
-            telegramBot.sendMessage(
-                String(
-                    "\nSensor DHT11 \nTemp: " + String(measurement.readTemperature()) +
-                    " C \nHumidity: " + String(measurement.readHumidity()) +
-                    " %"));
-        }
+
     }
 };
 #endif
