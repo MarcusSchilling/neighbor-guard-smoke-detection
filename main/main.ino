@@ -10,6 +10,9 @@
 #include "infrastructure/wifi_connection.h"
 #include "infrastructure/ota.h"
 
+#include <FastBot.h>
+#include "notification/message_reply.cpp"
+
 // Configuration Files
 #include "configuration/constants.h"
 #include "configuration/credentials.h"
@@ -42,6 +45,7 @@ void setup()
   Serial.begin(BUADRATE);
   wifiConnection.connectWiFi();
   initializeOTA();
+  setupMessageReply();
 
   Serial.println("Ready");
 
@@ -84,6 +88,7 @@ void setup()
   while (true)
   {
     handleOTA();
+    tick();
     Serial.println("Measurement started");
     float cppm = gasSensor.getCorrectedPPM(DEFAULT_TEMP, DEFAULT_HUM);
     if (isUseHygro)

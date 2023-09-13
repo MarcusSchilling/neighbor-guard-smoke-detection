@@ -6,12 +6,12 @@
 class TelegramBot
 {
 private:
-    FastBot fastBot{BOT_TOKEN};
+    FastBot fastBotTelegram{BOT_TOKEN};
 
 public:
     TelegramBot()
     {
-        fastBot.setChatID(CHAT_ID);
+        fastBotTelegram.setChatID(CHAT_ID);
     }
 
     void initialize()
@@ -20,7 +20,8 @@ public:
 
     void sendMessage(String message)
     {
-        fastBot.sendMessage(message);
+        fastBotTelegram.sendMessage(message);
     }
 };
+
 #endif
