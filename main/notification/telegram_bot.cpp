@@ -1,7 +1,7 @@
 #ifndef TELEGRAM_BOT
 #define TELEGRAM_BOT
 
-#include "credentials.h"
+#include "../configuration/credentials.h"
 #include <FastBot.h>
 class TelegramBot
 {

@@ -1,10 +1,11 @@
 #ifndef SMOKE_NOTIFIER
 #define SMOKE_NOTIFIER
 
-#include "constants.h"
+#include "../configuration/constants.h"
 #include "observer.cpp"
-#include "telegram_bot.cpp"
-#include "notification_policy.cpp"
+#include "../notification/telegram_bot.cpp"
+#include "../notification/notification_policy.cpp"
+#include "../domain/measurement.hpp"
 
 class SmokeNotifier : public Observer
 {
@@ -43,7 +44,6 @@ public:
                     " Ohm \nCorrected RZero: " + String(measurement.getCorrectedRZero()) +
                     " Ohm"));
         }
-
     }
 };
 #endif
