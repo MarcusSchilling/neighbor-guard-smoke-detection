@@ -13,6 +13,16 @@ private:
   bool isHeatNotificationSent = false;
   bool isCoolNotificationSent = false;
   bool isWetNotificationSent = false;
+  bool isNotifySmoke = (s_notificationState != 0 || s_notificationState != 3) && (s_notificationState == 1 || s_notificationState == 2);
+  bool isAlwaysNotifySmoke = s_notificationState == 11 || s_notificationState == 12;
+  bool isNotifyHygro = (s_notificationState != 0 || s_notificationState != 2) && (s_notificationState == 1 || s_notificationState == 3);
+  bool isAlwaysNotifyHygro = s_notificationState == 11 || s_notificationState == 13;
+  String startTime = timeManager.getCurrentTime();
+  String smokeNotificationTime = startTime;
+  String calibrationNotificationTime = startTime;
+  String heatNotificationTime = startTime;
+  String coolNotificationTime = startTime;
+  String humidityNotificationTime = startTime;
 
 public:
   NotificationPolicy()
@@ -21,30 +31,42 @@ public:
 
   bool notifyOfSmoke(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::MQ135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > s_cppmThreshold) || isConstantMQ135Notify)
+    if (measurement.getSensor() == SensorType::MQ135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > s_cppmThreshold && isNotifySmoke) || isAlwaysNotifySmoke)
     {
-      return true;
+      if (s_notificationRate * 60 <= timeManager.getSecondsPassed(smokeNotificationTime))
+      {
+        smokeNotificationTime = timeManager.getCurrentTime();
+        return true;
+      }
     }
     return false;
   }
 
   bool notifyOfCalibration(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::MQ135 && timeManager.isTimeInRange(TIME_START_CALIBRATION, TIME_END_CALIBRATION) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION && measurement.getRZero() < THRESHOLD_UPPER_CALIBRATION && isCalibrateSensor)
+    if (measurement.getSensor() == SensorType::MQ135 && timeManager.isTimeInRange(s_startCalibration, s_endCalibration) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION && measurement.getRZero() < THRESHOLD_UPPER_CALIBRATION && s_isGasSensorCalibration)
     {
-      return true;
+      if (s_notificationRate * 60 <= timeManager.getSecondsPassed(calibrationNotificationTime))
+      {
+        calibrationNotificationTime = timeManager.getCurrentTime();
+        return true;
+      }
     }
     return false;
   }
 
   bool notifyOfHeat(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isHeatNotificationSent && measurement.readTemperature() > THRESHOLD_HEAT)
+    if (measurement.getSensor() == SensorType::DHT && !isHeatNotificationSent && measurement.readTemperature() > s_hotTempThershold && isNotifyHygro)
     {
-      isHeatNotificationSent = true;
-      return true;
+      if (s_notificationRate * 60 <= timeManager.getSecondsPassed(heatNotificationTime))
+      {
+        heatNotificationTime = timeManager.getCurrentTime();
+        isHeatNotificationSent = true;
+        return true;
+      }
     }
-    else if (isHeatNotificationSent && measurement.readTemperature() < THRESHOLD_HEAT)
+    else if (isHeatNotificationSent && measurement.readTemperature() < s_hotTempThershold)
     {
       isHeatNotificationSent = false;
     }
@@ -52,12 +74,16 @@ public:
   }
   bool notifyOfCool(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < THRESHOLD_COOL)
+    if (measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < s_coolTempThershold && isNotifyHygro)
     {
-      isCoolNotificationSent = true;
-      return true;
+      if (s_notificationRate * 60 <= timeManager.getSecondsPassed(coolNotificationTime))
+      {
+        coolNotificationTime = timeManager.getCurrentTime();
+        isCoolNotificationSent = true;
+        return true;
+      }
     }
-    else if (isCoolNotificationSent && measurement.readTemperature() > THRESHOLD_COOL)
+    else if (isCoolNotificationSent && measurement.readTemperature() > s_coolTempThershold)
     {
       isCoolNotificationSent = false;
     }
@@ -65,12 +91,16 @@ public:
   }
   bool notifyOfHumidity(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > THRESHOLD_HUM)
+    if ((measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > s_humidThershold && isNotifyHygro) || isAlwaysNotifyHygro)
     {
-      isWetNotificationSent = true;
-      return true;
+      if (s_notificationRate * 60 <= timeManager.getSecondsPassed(humidityNotificationTime))
+      {
+        humidityNotificationTime = timeManager.getCurrentTime();
+        isWetNotificationSent = true;
+        return true;
+      }
     }
-    else if (isWetNotificationSent && measurement.readHumidity() < THRESHOLD_HUM)
+    else if ((isWetNotificationSent && measurement.readHumidity() < s_humidThershold) || measurement.readHumidity() < s_dryThershold)
     {
       isWetNotificationSent = false;
       return true;
