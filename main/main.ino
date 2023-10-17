@@ -16,13 +16,14 @@
 // Configuration Files
 #include "configuration/constants.h"
 #include "configuration/credentials.h"
+#include "configuration/config.h"
 
 // General Sensor Configuration
 #include "domain/measurement.hpp"
 
 // Sensor MQ135
 #include <MQ135.h>
-MQ135 gasSensor = MQ135(ANALOGPIN, RZEROCALIBRATION); // calibrated sensor
+MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCcalibration); // calibrated sensor
 
 // Sensor DHT11
 #include <DHT.h>
@@ -107,7 +108,7 @@ void setup()
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);
-    delay(DELAYTIME);
+    delay(1000/s_updateRate);
   }
 }
 

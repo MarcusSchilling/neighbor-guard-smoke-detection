@@ -6,9 +6,13 @@
 #include "../notification/telegram_bot.cpp"
 #include "../notification/notification_policy.cpp"
 #include "../domain/measurement.hpp"
+#include "../configuration/config.h"
 
 class SmokeNotifier : public Observer
 {
+private:
+    bool isAlwaysNotifySmoke = s_notificationState == 11 || s_notificationState == 12;
+
 public:
     TelegramBot telegramBot;
     NotificationPolicy notificationPolicy;
@@ -23,7 +27,7 @@ public:
         // Smoke detected via ppm value
         if (notificationPolicy.notifyOfSmoke(measurement))
         {
-            if (!isConstantMQ135Notify)
+            if (!isAlwaysNotifySmoke)
             {
                 telegramBot.sendMessage("SMOKE detected!");
             }
