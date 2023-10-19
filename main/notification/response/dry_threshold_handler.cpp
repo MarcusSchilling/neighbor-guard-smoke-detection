@@ -9,19 +9,14 @@
 #include "./is_calibration_handler.cpp"
 class DryThresholdHandler : public Handler
 {
+
 public:
-    DryThresholdHandler() : Handler("/dry-threshold", nullptr){};
+    DryThresholdHandler() : Handler("/dry-threshold", new IsCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_dryThershold = msg.text.substring(14).toInt();
-        telegramBot.sendMessage("Dry detection threshold set to: " + msg.text.substring(14) + "%");
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        IsCalibrationHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_dryThershold = msg.text.substring(getRegexLength()).toInt();
+        telegramBot.sendMessage("Dry detection threshold set to: " + msg.text.substring(getRegexLength()) + " %");
     }
 };
 

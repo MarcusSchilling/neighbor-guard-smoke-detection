@@ -11,6 +11,8 @@ void newMsg(FB_msg &msg)
 {
     SmokeThresholdHandler startHandler;
     startHandler.handleRequest(msg);
+    fastBot.clearServiceMessages(true);
+    fastBot.deleteMessage(msg.messageID);
 }
 
 void setupMessageReply()
