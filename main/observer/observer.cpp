@@ -1,7 +1,7 @@
 #ifndef OBSERVER
 #define OBSERVER
 
-#include <iostream>
+// #include <iostream>
 #include <vector>
 #include "../domain/measurement.hpp"
 

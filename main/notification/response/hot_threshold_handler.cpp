@@ -9,19 +9,16 @@
 #include "./cool_threshold_handler.cpp"
 class HotThresholdHandler : public Handler
 {
+
 public:
-    HotThresholdHandler() : Handler("/hot-threshold", nullptr){};
+    HotThresholdHandler() : Handler("/hot-threshold", new CoolThresholdHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_hotTempThershold = msg.text.substring(14).toInt();
-        telegramBot.sendMessage("Heat warning detection threshold set to: " + msg.text.substring(14) + "°C");
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        CoolThresholdHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_hotTempThershold = msg.text.substring(getRegexLength()).toInt();
+        Serial.println("Hot handling message: " + msg.text);
+        telegramBot.sendMessage("Heat warning detection threshold set to: " + msg.text.substring(getRegexLength()) + " °C");
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

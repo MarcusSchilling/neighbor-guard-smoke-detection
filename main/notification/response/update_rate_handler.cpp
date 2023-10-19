@@ -9,19 +9,14 @@
 #include "./notification_state_handler.cpp"
 class UpdateRateHandler : public Handler
 {
+
 public:
-    UpdateRateHandler() : Handler("/update-rate", nullptr){};
+    UpdateRateHandler() : Handler("/update-rate", new NotificationStateHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_updateRate = msg.text.substring(12).toInt();
-        telegramBot.sendMessage("Update rate set to: " + msg.text.substring(12) + " Hz");
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        NotificationStateHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_updateRate = msg.text.substring(getRegexLength()).toDouble();
+        telegramBot.sendMessage("Update rate set to: " + msg.text.substring(getRegexLength()) + " Hz");
     }
 };
 

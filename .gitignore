@@ -1,3 +1,4 @@
 .env
 *credentials.h
 temp/*
+*.vscode/*

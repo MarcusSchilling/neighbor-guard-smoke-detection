@@ -9,19 +9,14 @@
 #include "./humid_threshold_handler.cpp"
 class CoolThresholdHandler : public Handler
 {
+
 public:
-    CoolThresholdHandler() : Handler("/cool-threshold", nullptr){};
+    CoolThresholdHandler() : Handler("/cool-threshold", new HumidThresholdHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_coolTempThershold = msg.text.substring(15).toInt();
-        telegramBot.sendMessage("Cooldown detection threshold set to: " + msg.text.substring(15) + "°C");
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        HumidThresholdHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_coolTempThershold = msg.text.substring(getRegexLength()).toInt();
+        telegramBot.sendMessage("Cooldown detection threshold set to: " + msg.text.substring(getRegexLength()) + " °C");
     }
 };
 

@@ -23,7 +23,7 @@
 
 // Sensor MQ135
 #include <MQ135.h>
-MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCcalibration); // calibrated sensor
+MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCalibration); // calibrated sensor
 
 // Sensor DHT11
 #include <DHT.h>
