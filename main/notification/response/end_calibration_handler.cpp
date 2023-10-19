@@ -9,19 +9,14 @@
 #include "./rzero_calibration_handler.cpp"
 class EndCalibrationHandler : public Handler
 {
+
 public:
-    EndCalibrationHandler() : Handler("/end-calibration", nullptr){};
+    EndCalibrationHandler() : Handler("/end-calibration", new RZeroCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_endCalibration = msg.text.substring(16).toInt();
-        telegramBot.sendMessage("Calibration end time set to: " + msg.text.substring(16));
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        RZeroCalibrationHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_endCalibration = msg.text.substring(getRegexLength()).toInt();
+        telegramBot.sendMessage("Calibration end time set to: " + msg.text.substring(getRegexLength()));
     }
 };
 

@@ -6,23 +6,18 @@
 #include <cstdio>
 #include "../../configuration/config.h"
 #include <string>
-// #include "./_handler.cpp"
+#include "./get_variable_handler.cpp"
 class NotificationRateHandler : public Handler
 {
+
 public:
-    NotificationRateHandler() : Handler("/notification-rate", nullptr){};
+    NotificationRateHandler() : Handler("/notification-rate", new GetVariableHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_notificationRate = msg.text.substring(18).toInt();
-        telegramBot.sendMessage("Notification rate set to: " + msg.text.substring(18) + " minutes");
-        // fastBot.attach(newMsg);
+        s_notificationRate = msg.text.substring(getRegexLength()).toDouble();
+        telegramBot.sendMessage("Notification rate set to: " + msg.text.substring(getRegexLength()) + " minutes");
     }
-    // void newMsg(FB_msg &msg)
-    // {
-    //     SmokeThresholdHandler startHandler;
-    //     startHandler.handleRequest(msg);
-    // }
 };
 
 #endif

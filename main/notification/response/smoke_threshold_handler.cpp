@@ -9,19 +9,16 @@
 #include "./hot_threshold_handler.cpp"
 class SmokeThresholdHandler : public Handler
 {
+
 public:
-    SmokeThresholdHandler() : Handler("/smoke-threshold", nullptr){};
+    SmokeThresholdHandler() : Handler("/smoke-threshold", new HotThresholdHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_cppmThreshold = msg.text.substring(16).toInt();
-        telegramBot.sendMessage("Smoke detection threshold set to: " + msg.text.substring(16) + "PPM");
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        HotThresholdHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_cppmThreshold = msg.text.substring(getRegexLength()).toInt();
+        Serial.println("Smoke handling message: " + msg.text);
+        telegramBot.sendMessage("Smoke detection threshold set to: " + msg.text.substring(getRegexLength()) + " PPM");
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

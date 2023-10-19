@@ -9,19 +9,14 @@
 #include "./end_calibration_handler.cpp"
 class StartCalibrationHandler : public Handler
 {
+
 public:
-    StartCalibrationHandler() : Handler("/start-calibration", nullptr){};
+    StartCalibrationHandler() : Handler("/start-calibration", new EndCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_startCalibration = msg.text.substring(18).toInt();
-        telegramBot.sendMessage("Calibration start time set to: " + msg.text.substring(18));
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        EndCalibrationHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_startCalibration = msg.text.substring(getRegexLength()).toInt();
+        telegramBot.sendMessage("Calibration start time set to: " + msg.text.substring(getRegexLength()));
     }
 };
 

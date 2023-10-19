@@ -9,19 +9,14 @@
 #include "./start_calibration_handler.cpp"
 class IsCalibrationHandler : public Handler
 {
+
 public:
-    IsCalibrationHandler() : Handler("/is-calibration", nullptr){};
+    IsCalibrationHandler() : Handler("/is-calibration", new StartCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_isGasSensorCalibration = msg.text.substring(15).toInt();
-        telegramBot.sendMessage("Calibration set to: " + msg.text.substring(15));
-        fastBot.attach(newMsg);
-    }
-    void newMsg(FB_msg &msg)
-    {
-        StartCalibrationHandler startHandler;
-        startHandler.handleRequest(msg);
+        s_isGasSensorCalibration = msg.text.substring(getRegexLength()).toInt();
+        telegramBot.sendMessage("Calibration set to: " + msg.text.substring(getRegexLength()));
     }
 };
 
