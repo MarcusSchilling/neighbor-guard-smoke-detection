@@ -1,5 +1,5 @@
-#ifndef SMOKE_NOTIFIER
-#define SMOKE_NOTIFIER
+#ifndef SMOKE_NOTIFIER_CPP
+#define SMOKE_NOTIFIER_CPP
 
 #include "../configuration/constants.h"
 #include "observer.cpp"

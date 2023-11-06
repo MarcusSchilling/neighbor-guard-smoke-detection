@@ -1,5 +1,6 @@
 #ifndef HUMIDITY_NOTIFIER_CPP
 #define HUMIDITY_NOTIFIER_CPP
+
 #include "observer.cpp"
 #include "../notification/notification_policy.cpp"
 #include "../notification/telegram_bot.cpp"

@@ -1,5 +1,5 @@
-#ifndef OBSERVER
-#define OBSERVER
+#ifndef OBSERVER_CPP
+#define OBSERVER_CPP
 
 // #include <iostream>
 #include <vector>
