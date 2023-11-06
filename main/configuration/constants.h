@@ -25,3 +25,5 @@
 
 // -------------- System --------------
 #define BUADRATE 115200
+// Time zone info
+#define TZ_INFO "UTC1"

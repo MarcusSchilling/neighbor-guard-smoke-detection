@@ -1,5 +1,5 @@
-#ifndef TIME_MANAGER
-#define TIME_MANAGER
+#ifndef TIME_MANAGER_CPP
+#define TIME_MANAGER_CPP
 
 #include <WiFiUdp.h>
 #include <NTPClient.h>

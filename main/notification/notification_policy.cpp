@@ -1,5 +1,5 @@
-#ifndef NOTIFICATION_POLICY
-#define NOTIFICATION_POLICY
+#ifndef NOTIFICATION_POLICY_CPP
+#define NOTIFICATION_POLICY_CPP
 
 #include "../configuration/constants.h"
 #include "../domain/measurement.hpp"

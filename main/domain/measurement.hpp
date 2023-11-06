@@ -1,5 +1,5 @@
-#ifndef MEASUREMENT
-#define MEASUREMENT
+#ifndef MEASUREMENT_HPP
+#define MEASUREMENT_HPP
 
 enum class SensorType
 {
