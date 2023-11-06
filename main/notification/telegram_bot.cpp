@@ -1,5 +1,5 @@
-#ifndef TELEGRAM_BOT
-#define TELEGRAM_BOT
+#ifndef TELEGRAM_BOT_CPP
+#define TELEGRAM_BOT_CPP
 
 #include "../configuration/credentials.h"
 #include <FastBot.h>

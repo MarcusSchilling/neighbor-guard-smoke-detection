@@ -1,5 +1,6 @@
 #ifndef WIFI_CONNECTION_H
 #define WIFI_CONNECTION_H
+
 #include "../configuration/credentials.h"
 #include <ESP8266WiFi.h>
 
