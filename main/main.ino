@@ -70,7 +70,7 @@ void setup()
       float cppm = gasSensor.getCorrectedPPM(temperature, humidity);
       float resistance = gasSensor.getResistance();
       Measurement measurementHygro(SensorType::DHT, rz, crz, ppm, cppm, resistance, temperature, humidity);
-      Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance);
+      Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance, temperature, humidity);
       Serial.println("Initialization success!");
       isCalibration = false;
       break;
@@ -84,7 +84,7 @@ void setup()
   while (true)
   {
     handleOTA();
-    // tick();
+    tick();
     Serial.println("Measurement started");
     float temperature = DEFAULT_TEMP;
     float humidity = DEFAULT_HUM;
@@ -102,7 +102,7 @@ void setup()
       crz = gasSensor.getCorrectedRZero(temperature, humidity);
     }
     Measurement measurementHygro(SensorType::DHT, rz, crz, ppm, cppm, resistance, temperature, humidity);
-    Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance);
+    Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance, temperature, humidity);
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);
