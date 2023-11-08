@@ -57,7 +57,7 @@ public:
 
   bool notifyOfHeat(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isHeatNotificationSent && measurement.readTemperature() > s_hotTempThershold && isNotifyHygro)
+    if (measurement.getSensor() == SensorType::DHT && !isHeatNotificationSent && measurement.readTemperature() > s_hotTempThershold && measurement.readTemperature() != 0 && isNotifyHygro)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(heatNotificationTime))
       {
@@ -66,7 +66,7 @@ public:
         return true;
       }
     }
-    else if (isHeatNotificationSent && measurement.readTemperature() < s_hotTempThershold)
+    else if (isHeatNotificationSent && measurement.readTemperature() < s_hotTempThershold && measurement.readTemperature() != 0)
     {
       isHeatNotificationSent = false;
     }
@@ -74,7 +74,7 @@ public:
   }
   bool notifyOfCool(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < s_coolTempThershold && isNotifyHygro)
+    if (measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < s_coolTempThershold && isNotifyHygro && measurement.readTemperature() != 0)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(coolNotificationTime))
       {
@@ -83,7 +83,7 @@ public:
         return true;
       }
     }
-    else if (isCoolNotificationSent && measurement.readTemperature() > s_coolTempThershold)
+    else if (isCoolNotificationSent && measurement.readTemperature() > s_coolTempThershold && measurement.readTemperature() != 0)
     {
       isCoolNotificationSent = false;
     }
@@ -91,7 +91,7 @@ public:
   }
   bool notifyOfHumidity(const Measurement &measurement)
   {
-    if ((measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > s_humidThershold && isNotifyHygro) || isAlwaysNotifyHygro)
+    if ((measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > s_humidThershold && isNotifyHygro && measurement.readHumidity() != 0) || isAlwaysNotifyHygro)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(humidityNotificationTime))
       {
@@ -99,8 +99,9 @@ public:
         isWetNotificationSent = true;
         return true;
       }
+      return false;
     }
-    else if ((isWetNotificationSent && measurement.readHumidity() < s_humidThershold) || measurement.readHumidity() < s_dryThershold)
+    else if (((measurement.readHumidity() < s_humidThershold || measurement.readHumidity() < s_dryThershold) && isWetNotificationSent && isNotifyHygro && measurement.readHumidity() != 0) || isAlwaysNotifyHygro)
     {
       isWetNotificationSent = false;
       return true;
