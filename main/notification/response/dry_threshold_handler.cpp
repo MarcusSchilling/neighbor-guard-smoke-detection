@@ -17,6 +17,7 @@ public:
     {
         s_dryThershold = msg.text.substring(getRegexLength()).toInt();
         telegramBot.sendMessage("Dry detection threshold set to: " + msg.text.substring(getRegexLength()) + " %");
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

@@ -17,6 +17,7 @@ public:
     {
         s_notificationRate = msg.text.substring(getRegexLength()).toDouble();
         telegramBot.sendMessage("Notification rate set to: " + msg.text.substring(getRegexLength()) + " minutes");
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

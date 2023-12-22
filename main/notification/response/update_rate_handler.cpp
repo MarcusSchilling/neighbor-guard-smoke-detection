@@ -17,6 +17,7 @@ public:
     {
         s_updateRate = msg.text.substring(getRegexLength()).toDouble();
         telegramBot.sendMessage("Update rate set to: " + msg.text.substring(getRegexLength()) + " Hz");
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

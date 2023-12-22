@@ -27,6 +27,9 @@ void TimeSeriesDatabase::write(const Measurement &measurement)
         sensor.addField("ppm", measurement.getPPM());
         sensor.addField("corrected ppm", measurement.getCorrectedPPM());
         sensor.addField("resistance", measurement.getResistance());
+        int smoke = (measurement.getCorrectedPPM() > s_cppmThreshold) ? 1 : 0;
+        sensor.addField("smoke-detected", smoke*1000);
+        sensor.addField("smoke-threshold", s_cppmThreshold);
     }
     else if (measurement.getSensor() == SensorType::DHT) {
         sensor.addTag("sensor_type", "DHT11");

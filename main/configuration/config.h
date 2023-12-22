@@ -7,9 +7,9 @@
 
 std::map<std::string, std::variant<int,double,bool>> configList;
 
-int s_cppmThreshold = 600; // [PPM] corrected
+int s_cppmThreshold = 510; // [PPM] corrected
 int s_hotTempThershold = 28; // [°C]
-int s_coolTempThershold = 22; // [°C]
+int s_coolTempThershold = 10; // [°C]
 int s_humidThershold = 60; // [%]
 int s_dryThershold = 40; // [%]
 bool s_isGasSensorCalibration = false; // set to true to calibrate between @s_startCalibration and @s_endCalibration

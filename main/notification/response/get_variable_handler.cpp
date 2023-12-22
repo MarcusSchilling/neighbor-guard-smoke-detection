@@ -51,6 +51,7 @@ public:
             String messageReply = "Variable not defined. Currently defined variables:\n" + configVariables;
             telegramBot.sendMessage(messageReply);
         }
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 
