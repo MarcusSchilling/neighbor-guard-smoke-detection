@@ -11,7 +11,7 @@ class NotificationRateHandler : public Handler
 {
 
 public:
-    NotificationRateHandler() : Handler("/notification-rate", new GetVariableHandler()){};
+    NotificationRateHandler() : Handler("/notification-rate", nullptr){}; // new GetVariableHandler()){};
 
     void execute(FB_msg &msg)
     {
