@@ -11,12 +11,12 @@ class EndCalibrationHandler : public Handler
 {
 
 public:
-    EndCalibrationHandler() : Handler("/end-calibration", new RZeroCalibrationHandler()){};
+    EndCalibrationHandler() : Handler("/endCalibration ([1-9]|1[0-9]|2[0-4])\b", new RZeroCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_endCalibration = msg.text.substring(getRegexLength()).toInt();
-        telegramBot.sendMessage("Calibration end time set to: " + msg.text.substring(getRegexLength()));
+        s_endCalibration = std::stoi(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Calibration end time set to: " + String(s_endCalibration));
         telegramBot.deleteMessage(msg.messageID);
     }
 };

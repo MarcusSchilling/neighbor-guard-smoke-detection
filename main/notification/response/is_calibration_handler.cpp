@@ -11,12 +11,12 @@ class IsCalibrationHandler : public Handler
 {
 
 public:
-    IsCalibrationHandler() : Handler("/is-calibration", new StartCalibrationHandler()){};
+    IsCalibrationHandler() : Handler("/isCalibration ([01])", new StartCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_isGasSensorCalibration = msg.text.substring(getRegexLength()).toInt();
-        telegramBot.sendMessage("Calibration set to: " + msg.text.substring(getRegexLength()));
+        s_isGasSensorCalibration = std::stoi(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Calibration set to: " + String(s_isGasSensorCalibration));
         telegramBot.deleteMessage(msg.messageID);
     }
 };

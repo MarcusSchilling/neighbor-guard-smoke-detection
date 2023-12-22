@@ -1,7 +1,7 @@
 #ifndef DATABASE_CLIENT_CPP
 #define DATABASE_CLIENT_CPP
 
-#include "../configuration/credentials.h"
+#include "../configuration/shared.credentials.h"
 #include "../configuration/constants.h"
 #include "../configuration/config.h"
 #include "../domain/measurement.hpp"
