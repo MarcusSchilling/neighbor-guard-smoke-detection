@@ -11,12 +11,12 @@ class UpdateRateHandler : public Handler
 {
 
 public:
-    UpdateRateHandler() : Handler("/update-rate", new NotificationStateHandler()){};
+    UpdateRateHandler() : Handler("/updateRate ([1-9]*\\.[0-9]*|[0-9]*)", new NotificationStateHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_updateRate = msg.text.substring(getRegexLength()).toDouble();
-        telegramBot.sendMessage("Update rate set to: " + msg.text.substring(getRegexLength()) + " Hz");
+        s_updateRate = std::stod(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Update rate set to: " + String(s_updateRate, 2) + " Hz");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

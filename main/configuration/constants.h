@@ -3,7 +3,7 @@
 // Smoke Detection
 #define TIME_START_SMOKE_DETECTION 7
 #define TIME_END_SMOKE_DETECTION 24
-#define THRESHOLD_PPM 300.0         // ppm
+#define THRESHOLD_PPM 300.0 // ppm
 
 // Sensor Calibration
 #define THRESHOLD_LOWER_CALIBRATION 0.0   // Ohm
@@ -14,8 +14,8 @@
 // MQ135
 #include <MQ135.h>
 #define ANALOGPIN 0
-#define DEFAULT_TEMP 22.0    // °c
-#define DEFAULT_HUM 30.0     // %
+#define DEFAULT_TEMP 22.0 // °c
+#define DEFAULT_HUM 30.0  // %
 
 // DHT11
 #include <DHT.h>

@@ -2,28 +2,52 @@
 #define HANDLER_HPP
 
 #include "../telegram_bot.cpp"
+#include <regex>
+
 class Handler
 {
 private:
-    String regex;
+    std::string regex;
     Handler *next;
+
 
 protected:
     TelegramBot telegramBot;
 
-    Handler(String regex, Handler *next) : regex(regex), next(next)
+    Handler(std::string regex, Handler *next) : regex(regex), next(next)
     {
     }
 
-public:
+    std::string parseRegex(const std::string &input, const int requestedGroup)
+    {
+        std::regex regexObj(regex);
+        std::smatch match;
 
+        if (std::regex_search(input, match, regexObj))
+        {
+            // The first group is index 1 in the match object
+            return match[requestedGroup].str();
+        }
+        else
+        {
+            // Return an empty string if no match is found
+            return "";
+        }
+    }
+
+public:
     void handleRequest(FB_msg &msg)
     {
-        if (isResponsible(msg)) {
+        if (isResponsible(msg))
+        {
             execute(msg);
-        } else if(next){
+        }
+        else if (next)
+        {
             next->handleRequest(msg);
-        } else {
+        }
+        else
+        {
             telegramBot.sendMessage("Invalid Input");
             int32_t usrMsg = telegramBot.lastUsrMsg();
             telegramBot.deleteMessage(usrMsg);
@@ -34,16 +58,12 @@ public:
 
     bool isResponsible(FB_msg &msg)
     {
-        // return msg.text.indexOf(regex) != -1;
-        return msg.text.startsWith(regex);
+        return std::regex_match(msg.text.c_str(), std::regex(regex.c_str()));
     }
-    String getRegex()
-    {
-        return regex;
-    }
+
     int getRegexLength()
     {
-        return regex.length()+1;
+        return regex.length() + 1;
     }
 
     virtual void execute(FB_msg &msg) = 0;

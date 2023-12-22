@@ -16,7 +16,7 @@
 
 // Configuration Files
 #include "configuration/constants.h"
-#include "configuration/credentials.h"
+#include "configuration/shared.credentials.h"
 #include "configuration/config.h"
 
 // General Sensor Configuration

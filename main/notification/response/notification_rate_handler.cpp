@@ -11,12 +11,12 @@ class NotificationRateHandler : public Handler
 {
 
 public:
-    NotificationRateHandler() : Handler("/notification-rate", nullptr){}; // new GetVariableHandler()){};
+    NotificationRateHandler() : Handler("/notificationRate ([1-9]*\\.[0-9]*|[0-9]*)", nullptr){}; // new GetVariableHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_notificationRate = msg.text.substring(getRegexLength()).toDouble();
-        telegramBot.sendMessage("Notification rate set to: " + msg.text.substring(getRegexLength()) + " minutes");
+        s_notificationRate = std::stod(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Notification rate set to: " + String(s_notificationRate, 2) + " minutes");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

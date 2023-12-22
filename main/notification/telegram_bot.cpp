@@ -1,7 +1,7 @@
 #ifndef TELEGRAM_BOT_CPP
 #define TELEGRAM_BOT_CPP
 
-#include "../configuration/credentials.h"
+#include "../configuration/shared.credentials.h"
 #include <FastBot.h>
 #define FB_DYNAMIC // enable dynamic mode: the library takes longer to execute the request, but takes up 10 kb less memory in SRAM
 
