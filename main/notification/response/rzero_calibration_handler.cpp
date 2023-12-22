@@ -17,6 +17,8 @@ public:
     {
         s_rZeroCalibration = msg.text.substring(getRegexLength()).toDouble();
         telegramBot.sendMessage("Calibration rZero set to: " + msg.text.substring(getRegexLength()) + " Ohm");
+        telegramBot.deleteMessage(msg.messageID);
+        ESP.restart();
     }
 };
 

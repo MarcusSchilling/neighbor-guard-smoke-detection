@@ -29,6 +29,11 @@ public:
     {
         fastBotTelegram.deleteMessage(msgid);
     }
+
+    int32_t lastUsrMsg()
+    {
+        return fastBotTelegram.lastUsrMsg();
+    }
 };
 
 #endif

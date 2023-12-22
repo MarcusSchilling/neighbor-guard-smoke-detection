@@ -25,6 +25,10 @@ public:
             next->handleRequest(msg);
         } else {
             telegramBot.sendMessage("Invalid Input");
+            int32_t usrMsg = telegramBot.lastUsrMsg();
+            telegramBot.deleteMessage(usrMsg);
+            telegramBot.deleteMessage(msg.messageID);
+            Serial.println("Message deleted with ID: " + String(usrMsg));
         }
     }
 
