@@ -23,3 +23,17 @@ Use the Arduino IDE
 - [NTPClient](https://github.com/arduino-libraries/NTPClient) --> Version 3.2.1
 - [DHT sensor library](https://github.com/adafruit/DHT-sensor-library) --> Version 1.4.4
 - [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA) --> Version 1.0.11
+
+# InfluxDB Server Installation
+For simplification a docker-compose can be found in /docker.
+For this to work add a .env file in the /docker directory with the following variables:
+```yaml
+INFLUXDB_ORG=SmokeGuard
+INFLUXDB_PORT=8086
+INFLUXDB_DATABASE=smokeguardDB
+INFLUXDB_BUCKET=smokeGuardBucket
+INFLUXDB_USER=smokeguard
+INFLUXDB_PWD=<Add your password here>
+INFLUXDB_TOKEN=<Add your influxdb token here>
+PARENT_WORKING_DIRECTORY=<Add your desired influxdb data directory here>
+```
