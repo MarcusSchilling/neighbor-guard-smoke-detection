@@ -17,6 +17,7 @@ public:
     {
         s_coolTempThershold = msg.text.substring(getRegexLength()).toInt();
         telegramBot.sendMessage("Cooldown detection threshold set to: " + msg.text.substring(getRegexLength()) + " °C");
+        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

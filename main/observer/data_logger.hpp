@@ -3,7 +3,7 @@
 
 #include "observer.cpp"
 #include "../domain/measurement.hpp"
-#include "../database/database_client.hpp"
+#include "../database/database_client.cpp"
 
 class DataLogger : public Observer
 {

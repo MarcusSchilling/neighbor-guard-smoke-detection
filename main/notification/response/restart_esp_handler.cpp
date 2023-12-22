@@ -14,6 +14,7 @@ public:
 
     void execute(FB_msg &msg)
     {
+        telegramBot.deleteMessage(msg.messageID);
         ESP.restart();
     }
 };
