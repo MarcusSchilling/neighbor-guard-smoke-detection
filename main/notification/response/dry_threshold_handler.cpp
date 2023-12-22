@@ -11,12 +11,12 @@ class DryThresholdHandler : public Handler
 {
 
 public:
-    DryThresholdHandler() : Handler("/dry-threshold", new IsCalibrationHandler()){};
+    DryThresholdHandler() : Handler("/dryThreshold ([1-9][0-9]*)", new IsCalibrationHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_dryThershold = msg.text.substring(getRegexLength()).toInt();
-        telegramBot.sendMessage("Dry detection threshold set to: " + msg.text.substring(getRegexLength()) + " %");
+        s_dryThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Dry detection threshold set to: " + String(s_dryThershold) + " %");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

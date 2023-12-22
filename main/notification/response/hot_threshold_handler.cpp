@@ -11,13 +11,13 @@ class HotThresholdHandler : public Handler
 {
 
 public:
-    HotThresholdHandler() : Handler("/hot-threshold", new CoolThresholdHandler()){};
+    HotThresholdHandler() : Handler("/hotThreshold ((|[+-])[0-9]*)", new CoolThresholdHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_hotTempThershold = msg.text.substring(getRegexLength()).toInt();
+        s_hotTempThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
         Serial.println("Hot handling message: " + msg.text);
-        telegramBot.sendMessage("Heat warning detection threshold set to: " + msg.text.substring(getRegexLength()) + " °C");
+        telegramBot.sendMessage("Heat warning detection threshold set to: " + String(s_hotTempThershold) + " °C");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

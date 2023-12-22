@@ -11,12 +11,12 @@ class RZeroCalibrationHandler : public Handler
 {
 
 public:
-    RZeroCalibrationHandler() : Handler("/rzero", new UpdateRateHandler()){};
+    RZeroCalibrationHandler() : Handler("/rzero ([1-9]*\\.[0-9]*|[0-9]*)", new UpdateRateHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_rZeroCalibration = msg.text.substring(getRegexLength()).toDouble();
-        telegramBot.sendMessage("Calibration rZero set to: " + msg.text.substring(getRegexLength()) + " Ohm");
+        s_rZeroCalibration = std::stod(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Calibration rZero set to: " + String(s_rZeroCalibration, 2) + " Ohm");
         telegramBot.deleteMessage(msg.messageID);
         ESP.restart();
     }

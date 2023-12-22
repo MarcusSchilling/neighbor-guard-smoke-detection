@@ -11,12 +11,12 @@ class HumidThresholdHandler : public Handler
 {
 
 public:
-    HumidThresholdHandler() : Handler("/humid-threshold", new DryThresholdHandler()){};
+    HumidThresholdHandler() : Handler("/humidThreshold ([1-9][0-9]*)", new DryThresholdHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_humidThershold = msg.text.substring(getRegexLength()).toInt();
-        telegramBot.sendMessage("Humid detection threshold set to: " + msg.text.substring(getRegexLength()) + " %");
+        s_humidThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Humid detection threshold set to: " + String(s_humidThershold) + " %");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

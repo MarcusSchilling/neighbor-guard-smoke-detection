@@ -11,12 +11,12 @@ class CoolThresholdHandler : public Handler
 {
 
 public:
-    CoolThresholdHandler() : Handler("/cool-threshold", new HumidThresholdHandler()){};
+    CoolThresholdHandler() : Handler("/coolThreshold ((|[+-])[1-9][0-9]*)", new HumidThresholdHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_coolTempThershold = msg.text.substring(getRegexLength()).toInt();
-        telegramBot.sendMessage("Cooldown detection threshold set to: " + msg.text.substring(getRegexLength()) + " °C");
+        s_coolTempThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
+        telegramBot.sendMessage("Cooldown detection threshold set to: " + String(s_coolTempThershold) + " °C");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

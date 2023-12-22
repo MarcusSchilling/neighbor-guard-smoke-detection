@@ -1,7 +1,7 @@
 #ifndef MESSAGE_REPLY_CPP
 #define MESSAGE_REPLY_CPP
 
-#include "../configuration/credentials.h"
+#include "../configuration/shared.credentials.h"
 #include "response/smoke_threshold_handler.cpp"
 
 #include <FastBot.h>
