@@ -11,12 +11,12 @@ class SmokeThresholdHandler : public Handler
 {
 
 public:
-    SmokeThresholdHandler() : Handler("/smokeThreshold ([1-9][0-9]*)", new HotThresholdHandler()){};
+    SmokeThresholdHandler() : Handler("/smokeThreshold ([1-9][0-9]*)", new HotThresholdHandler()){};//HOT
 
     void execute(FB_msg &msg)
     {
-        s_cppmThreshold = std::stoi(parseRegex(msg.text.c_str(), 1));
-        telegramBot.sendMessage("Smoke detection threshold set to: " +  String(s_cppmThreshold)  + " PPM");
+        s_cppmThreshold = parseRegex(msg.text, 1).toInt();
+        telegramBot.sendMessage("Smoke detection threshold set to: " + String(s_cppmThreshold) + " PPM");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

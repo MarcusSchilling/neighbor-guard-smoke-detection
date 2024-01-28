@@ -3,7 +3,6 @@
 
 #include "handler.hpp"
 #include "../telegram_bot.cpp"
-#include <cstdio>
 #include "../../configuration/config.h"
 
 class RestartESPHandler : public Handler

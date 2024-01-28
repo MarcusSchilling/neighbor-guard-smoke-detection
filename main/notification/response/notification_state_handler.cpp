@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_notificationState = std::stoi(parseRegex(msg.text.c_str(), 1));
+        s_notificationState = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Notification state set to: " + String(s_notificationState));
         telegramBot.deleteMessage(msg.messageID);
     }

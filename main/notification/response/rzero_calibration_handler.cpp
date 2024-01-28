@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_rZeroCalibration = std::stod(parseRegex(msg.text.c_str(), 1));
+        s_rZeroCalibration = parseRegex(msg.text, 1).toDouble();
         telegramBot.sendMessage("Calibration rZero set to: " + String(s_rZeroCalibration, 2) + " Ohm");
         telegramBot.deleteMessage(msg.messageID);
         ESP.restart();

@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_humidThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
+        s_humidThershold = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Humid detection threshold set to: " + String(s_humidThershold) + " %");
         telegramBot.deleteMessage(msg.messageID);
     }
