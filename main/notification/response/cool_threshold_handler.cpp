@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_coolTempThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
+        s_coolTempThershold = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Cooldown detection threshold set to: " + String(s_coolTempThershold) + " °C");
         telegramBot.deleteMessage(msg.messageID);
     }

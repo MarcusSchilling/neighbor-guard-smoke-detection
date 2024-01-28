@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_isGasSensorCalibration = std::stoi(parseRegex(msg.text.c_str(), 1));
+        s_isGasSensorCalibration = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Calibration set to: " + String(s_isGasSensorCalibration));
         telegramBot.deleteMessage(msg.messageID);
     }

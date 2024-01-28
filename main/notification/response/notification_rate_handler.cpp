@@ -7,15 +7,17 @@
 #include "../../configuration/config.h"
 #include <string>
 #include "./get_variable_handler.cpp"
+#include "labeling/smoke_label_handler.cpp"
+
 class NotificationRateHandler : public Handler
 {
 
 public:
-    NotificationRateHandler() : Handler("/notificationRate ([1-9]*\\.[0-9]*|[0-9]*)", nullptr){}; // new GetVariableHandler()){};
+    NotificationRateHandler() : Handler("/notificationRate ([1-9]*\\.[0-9]*|[0-9]*)", new SmokeLabelHandler()){}; // new GetVariableHandler()){};
 
     void execute(FB_msg &msg)
     {
-        s_notificationRate = std::stod(parseRegex(msg.text.c_str(), 1));
+        s_notificationRate = parseRegex(msg.text, 1).toDouble();
         telegramBot.sendMessage("Notification rate set to: " + String(s_notificationRate, 2) + " minutes");
         telegramBot.deleteMessage(msg.messageID);
     }
