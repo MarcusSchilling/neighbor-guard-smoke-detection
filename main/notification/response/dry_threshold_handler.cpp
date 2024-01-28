@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_dryThershold = std::stoi(parseRegex(msg.text.c_str(), 1));
+        s_dryThershold = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Dry detection threshold set to: " + String(s_dryThershold) + " %");
         telegramBot.deleteMessage(msg.messageID);
     }

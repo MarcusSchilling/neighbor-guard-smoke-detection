@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_updateRate = std::stod(parseRegex(msg.text.c_str(), 1));
+        s_updateRate = parseRegex(msg.text, 1).toDouble();
         telegramBot.sendMessage("Update rate set to: " + String(s_updateRate, 2) + " Hz");
         telegramBot.deleteMessage(msg.messageID);
     }

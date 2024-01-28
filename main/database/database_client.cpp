@@ -20,7 +20,8 @@ TimeSeriesDatabase::TimeSeriesDatabase()
 void TimeSeriesDatabase::write(const Measurement &measurement)
 {
     Point sensor{"air-quality"};
-    if (measurement.getSensor() == SensorType::MQ135) {
+    if (measurement.getSensor() == SensorType::MQ135)
+    {
         sensor.addTag("sensor_type", "MQ135");
         sensor.addField("R-Zero", measurement.getRZero());
         sensor.addField("corrected R-Zero", measurement.getCorrectedRZero());
@@ -28,22 +29,28 @@ void TimeSeriesDatabase::write(const Measurement &measurement)
         sensor.addField("corrected ppm", measurement.getCorrectedPPM());
         sensor.addField("resistance", measurement.getResistance());
         int smoke = (measurement.getCorrectedPPM() > s_cppmThreshold) ? 1 : 0;
-        sensor.addField("smoke-detected", smoke*1000);
+        sensor.addField("smoke-detected", smoke * 1000);
         sensor.addField("smoke-threshold", s_cppmThreshold);
+        sensor.addField("smoke-label", s_smokeLabel ? s_cppmThreshold * 0.5 : 0);
+        s_smokeLabel = false;
     }
-    else if (measurement.getSensor() == SensorType::DHT) {
+    else if (measurement.getSensor() == SensorType::DHT)
+    {
         sensor.addTag("sensor_type", "DHT11");
         sensor.addField("temperature", measurement.readTemperature());
         sensor.addField("humidity", measurement.readHumidity());
     }
-    else {
+    else
+    {
         Serial.print("Sensor not yet configured for influxDB logging");
     }
 
-    if (influx.writePoint(sensor)) {
+    if (influx.writePoint(sensor))
+    {
         Serial.println("Data written to InfluxDB");
     }
-    else {
+    else
+    {
         Serial.print("InfluxDB write failed: ");
         Serial.println(influx.getLastErrorMessage());
     }
@@ -56,11 +63,13 @@ void TimeSeriesDatabase::initDatabaseConnection()
     timeSync(TZ_INFO, "pool.ntp.org", "time.nis.gov");
 
     // Check server connection
-    if (influx.validateConnection()) {
+    if (influx.validateConnection())
+    {
         Serial.print("Connected to InfluxDB: ");
         Serial.println(influx.getServerUrl());
     }
-    else {
+    else
+    {
         Serial.print("InfluxDB connection failed: ");
         Serial.println(influx.getLastErrorMessage());
     }

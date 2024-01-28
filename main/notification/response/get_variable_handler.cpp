@@ -3,54 +3,57 @@
 
 #include "handler.hpp"
 #include "../telegram_bot.cpp"
-#include <cstdio>
 #include "../../configuration/config.h"
-#include "./restart_esp_handler.cpp"
 class GetVariableHandler : public Handler
 {
 
 public:
-    GetVariableHandler() : Handler("/get", new RestartESPHandler()) {}
+    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", nullptr) {} // RestartESPHandler()
 
     void execute(FB_msg &msg)
     {
         initConfigList();
-        String variableName = msg.text.substring(getRegexLength());
+        String variableName = parseRegex(msg.text, 1);
+        Serial.print("Step 1");
         Serial.println("Variable handling message: " + msg.text);
         Serial.println("Variable name: " + variableName);
-
-        if (!variableName.isEmpty() && configList.find(variableName.c_str()) != configList.end())
+        if (!variableName.isEmpty() && configList.find(variableName) != configList.end())
         {
-            std::variant<int,double,bool> value = configList[variableName.c_str()];
+            Serial.print("Step 2");
+        
+            std::variant<int, double, bool> value = configList[variableName];
+            String message = "";
+            Serial.print("Step 3");
             if (std::holds_alternative<int>(value))
             {
+                Serial.print("Step 4");
                 int intValue = std::get<int>(value);
-                String message = variableName + ": " + String(intValue);
-                telegramBot.sendMessage(message);
+                message = variableName + ": " + String(intValue);
             }
             else if (std::holds_alternative<bool>(value))
             {
                 bool boolValue = std::get<bool>(value);
-                String message = variableName + ": " + (boolValue ? "true" : "false");
-                telegramBot.sendMessage(message);
+                message = variableName + ": " + (boolValue ? "true" : "false");
             }
             else if (std::holds_alternative<double>(value))
             {
                 double doubleValue = std::get<double>(value);
-                String message = variableName + ": " + String(doubleValue, 2); // Display with 2 decimal places
-                telegramBot.sendMessage(message);
+                message = variableName + ": " + String(doubleValue, 2); // Display with 2 decimal places
             }
+            Serial.print("Step 5");
+            telegramBot.sendMessage(message);
         }
         else
         {
             String configVariables = "";
-            for (const auto& pair : configList)
+            for (const auto &pair : configList)
             {
-                configVariables = configVariables + pair.first.c_str() + "\n";
+                configVariables = configVariables + pair.first + "\n";
             }
             String messageReply = "Variable not defined. Currently defined variables:\n" + configVariables;
             telegramBot.sendMessage(messageReply);
         }
+        Serial.print("Step 6");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

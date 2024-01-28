@@ -15,7 +15,7 @@ public:
 
     void execute(FB_msg &msg)
     {
-        s_startCalibration = std::stoi(parseRegex(msg.text.c_str(), 1));
+        s_startCalibration = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Calibration start time set to: " + String(s_startCalibration));
         telegramBot.deleteMessage(msg.messageID);
     }
