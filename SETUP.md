@@ -23,6 +23,7 @@ Use the Arduino IDE
 - [NTPClient](https://github.com/arduino-libraries/NTPClient) --> Version 3.2.1
 - [DHT sensor library](https://github.com/adafruit/DHT-sensor-library) --> Version 1.4.4
 - [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA) --> Version 1.0.11
+- [InfluxDBClient](https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino) --> Version 3.13.1
 
 # InfluxDB Server Installation
 For simplification a docker-compose can be found in /docker.
