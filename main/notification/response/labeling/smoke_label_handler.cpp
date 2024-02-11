@@ -3,11 +3,11 @@
 
 #include "../handler.hpp"
 #include "../../../configuration/config.h"
-
+#include "../restart_esp_handler.cpp"
 class SmokeLabelHandler : public Handler
 {
 public:
-    SmokeLabelHandler() : Handler("/smoke", nullptr){};
+    SmokeLabelHandler() : Handler("/smoke", new RestartESPHandler()){};
 
     void execute(FB_msg &msg)
     {
