@@ -3,8 +3,6 @@
 
 #include "../configuration/constants.h"
 #include "observer.cpp"
-#include "../notification/telegram_bot.cpp"
-#include "../notification/notification_policy.cpp"
 #include "../domain/measurement.hpp"
 #include "../configuration/config.h"
 
@@ -14,9 +12,6 @@ private:
     bool isAlwaysNotifySmoke = s_notificationState == 11 || s_notificationState == 12;
 
 public:
-    TelegramBot telegramBot;
-    NotificationPolicy notificationPolicy;
-
     SmokeNotifier()
     {
         telegramBot.initialize();
