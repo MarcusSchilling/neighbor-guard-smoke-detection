@@ -7,6 +7,8 @@
 #include "../../configuration/config.h"
 #include <string>
 #include "./update_rate_handler.cpp"
+#include "../../configuration/constants.h"
+
 class RZeroCalibrationHandler : public Handler
 {
 
@@ -17,8 +19,9 @@ public:
     {
         s_rZeroCalibration = parseRegex(msg.text, 1).toDouble();
         telegramBot.sendMessage("Calibration rZero set to: " + String(s_rZeroCalibration, 2) + " Ohm");
-        telegramBot.deleteMessage(msg.messageID);
-        ESP.restart();
+        gasSensor = MQ135(ANALOGPIN, s_rZeroCalibration);
+        // telegramBot.sendMessage("Restarting Controller");
+        // ESP.restart();
     }
 };
 

@@ -17,7 +17,6 @@ public:
     {
         s_notificationState = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Notification state set to: " + String(s_notificationState));
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

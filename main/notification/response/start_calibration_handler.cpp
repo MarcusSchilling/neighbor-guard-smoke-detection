@@ -17,7 +17,6 @@ public:
     {
         s_startCalibration = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Calibration start time set to: " + String(s_startCalibration));
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

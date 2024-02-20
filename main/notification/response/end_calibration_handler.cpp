@@ -17,7 +17,6 @@ public:
     {
         s_endCalibration = parseRegex(msg.text.c_str(), 1).toInt();
         telegramBot.sendMessage("Calibration end time set to: " + String(s_endCalibration));
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

@@ -18,7 +18,6 @@ public:
         s_hotTempThershold = parseRegex(msg.text, 1).toInt();
         Serial.println("Hot handling message: " + msg.text);
         telegramBot.sendMessage("Heat warning detection threshold set to: " + String(s_hotTempThershold) + " °C");
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 
