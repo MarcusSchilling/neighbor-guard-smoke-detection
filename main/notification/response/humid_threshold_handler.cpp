@@ -17,7 +17,6 @@ public:
     {
         s_humidThershold = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Humid detection threshold set to: " + String(s_humidThershold) + " %");
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

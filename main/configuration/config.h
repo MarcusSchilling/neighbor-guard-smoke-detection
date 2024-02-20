@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <variant>
+#include "constants.h"
 
 static std::map<String, std::variant<int, double, bool>> configList;
 
@@ -27,7 +28,8 @@ bool s_smokeLabel = false;             // [True/False]
 // 12: Debug Gas Sensor --> notify of every gas sensor reading @s_updateRate
 // 13: Debug Hygrometer --> notify of every hygrometer reading at @s_updateRate
 int s_notificationState = 1;
-double s_notificationRate = 5.0; // [Min] Telegram notification rate
+double s_notificationRate = 5.0;                               // [Min] Telegram notification rate
+static MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCalibration); // calibrated sensor
 
 // Dictionary of configuration variable for /return-vaariable message reply
 void initConfigList()

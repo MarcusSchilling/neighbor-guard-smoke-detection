@@ -9,11 +9,10 @@ class RestartESPHandler : public Handler
 {
 
 public:
-    RestartESPHandler() : Handler("/restart", nullptr) {}
+    RestartESPHandler() : Handler("/restart", new GetVariableHandler()) {}
 
     void execute(FB_msg &msg)
     {
-        telegramBot.deleteMessage(msg.messageID);
         ESP.restart();
     }
 };
