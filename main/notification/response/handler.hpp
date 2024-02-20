@@ -4,6 +4,7 @@
 #include "../telegram_bot.cpp"
 #include <regex>
 #include <optional>
+
 class Handler
 {
 private:
@@ -11,8 +12,6 @@ private:
     Handler *next;
 
 protected:
-    TelegramBot telegramBot;
-
     Handler(const std::string regex, Handler *next) : regex(regex), next(next)
     {
     }
@@ -53,9 +52,6 @@ public:
         {
             telegramBot.sendMessage("Invalid Input");
             int32_t usrMsg = telegramBot.lastUsrMsg();
-            telegramBot.deleteMessage(usrMsg);
-            telegramBot.deleteMessage(msg.messageID);
-            Serial.println("Message deleted with ID: " + String(usrMsg));
         }
     }
 

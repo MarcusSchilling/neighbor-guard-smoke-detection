@@ -12,6 +12,7 @@ public:
     void execute(FB_msg &msg)
     {
         s_smokeLabel = true;
+        telegramBot.sendMessage("Thank you for labeling smoke");
     }
 };
 #endif

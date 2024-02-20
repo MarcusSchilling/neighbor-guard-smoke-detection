@@ -19,11 +19,8 @@ public:
         Serial.println("Variable name: " + variableName);
         if (!variableName.isEmpty() && configList.find(variableName) != configList.end())
         {
-            Serial.print("Step 2");
-        
             std::variant<int, double, bool> value = configList[variableName];
             String message = "";
-            Serial.print("Step 3");
             if (std::holds_alternative<int>(value))
             {
                 Serial.print("Step 4");

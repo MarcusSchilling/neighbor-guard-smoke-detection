@@ -17,7 +17,6 @@ public:
     {
         s_isGasSensorCalibration = parseRegex(msg.text, 1).toInt();
         telegramBot.sendMessage("Calibration set to: " + String(s_isGasSensorCalibration));
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

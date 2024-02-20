@@ -24,7 +24,6 @@
 
 // Sensor MQ135
 #include <MQ135.h>
-MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCalibration); // calibrated sensor
 
 // Sensor DHT11
 #include <DHT.h>
@@ -34,8 +33,7 @@ DHT hygroSensor = DHT(DIGITALPIN, DHTTYPE);
 
 bool isCalibration = true;
 
-void setup()
-{
+void setup() {
   // put your setup code here, to run once:
   Serial.begin(BUADRATE);
   wifiConnection.connectWiFi();
@@ -53,17 +51,15 @@ void setup()
   subject.attach(temperatureNotifier);
   subject.attach(humidityNotifier);
   subject.attach(dataLogger);
-  while (isCalibration)
-  {
+  while (isCalibration) {
     // Initialization & Calibration
     Serial.println("Initialization started");
-    hygroSensor.begin(); // Begin DHT11 sensor communication
+    hygroSensor.begin();  // Begin DHT11 sensor communication
     Serial.println("DHT11 initialization complete");
     float temperature = hygroSensor.readTemperature();
     float humidity = hygroSensor.readHumidity();
     bool hygroSuccess = !(isnan(humidity) || isnan(temperature));
-    if (hygroSuccess)
-    {
+    if (hygroSuccess) {
       float rz = gasSensor.getRZero();
       float crz = gasSensor.getCorrectedRZero(temperature, humidity);
       float ppm = gasSensor.getPPM();
@@ -74,15 +70,12 @@ void setup()
       Serial.println("Initialization success!");
       isCalibration = false;
       break;
-    }
-    else
-    {
+    } else {
       return;
     }
   }
 
-  while (true)
-  {
+  while (true) {
     handleOTA();
     tick();
     Serial.println("Measurement started");
@@ -93,8 +86,7 @@ void setup()
     float ppm = gasSensor.getPPM();
     float cppm = gasSensor.getCorrectedPPM(temperature, humidity);
     float resistance = gasSensor.getResistance();
-    if (isUseHygro)
-    {
+    if (isUseHygro) {
       Serial.println("... using Hygrometer");
       temperature = hygroSensor.readTemperature();
       humidity = hygroSensor.readHumidity();
@@ -106,11 +98,10 @@ void setup()
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);
-    delay(1000/s_updateRate);
+    delay(1000 / s_updateRate);
   }
 }
 
-void loop()
-{
+void loop() {
 }
 #endif
