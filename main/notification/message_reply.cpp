@@ -7,23 +7,26 @@
 #include <FastBot.h>
 FastBot fastBot{BOT_TOKEN};
 int32_t lastReadMessageId = 0;
+Time *startupTime = nullptr;
+TimeManager timeManager{};
+
 void newMsg(FB_msg &msg)
 {
-
-    // int16_t timeZoneEurope = 1;
-    // FB_Time messageTime{msg.unix, timeZoneEurope};
-    // telegramBot.sendMessage(messageTime.dateString());
-    if (lastReadMessageId == msg.messageID)
+    if (!startupTime)
     {
-        // message already processed eventually broken
-        return;
+        startupTime = new Time{timeManager.getCurrentTime()};
+    }
+    Time messageTime{msg.unix};
+    bool wasMessageSendAfterSensorStartup = messageTime > *startupTime;
+    if (wasMessageSendAfterSensorStartup)
+    {
+        SmokeThresholdHandler startHandler;
+        startHandler.handleRequest(msg);
     }
     else
     {
-        lastReadMessageId = msg.messageID;
+        telegramBot.sendMessage("The Sensor only processes messages send after startup.");
     }
-    SmokeThresholdHandler startHandler;
-    startHandler.handleRequest(msg);
 }
 
 void setupMessageReply()

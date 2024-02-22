@@ -14,9 +14,6 @@ public:
     {
         initConfigList();
         String variableName = parseRegex(msg.text, 1);
-        Serial.print("Step 1");
-        Serial.println("Variable handling message: " + msg.text);
-        Serial.println("Variable name: " + variableName);
         if (!variableName.isEmpty() && configList.find(variableName) != configList.end())
         {
             std::variant<int, double, bool> value = configList[variableName];

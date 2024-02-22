@@ -17,7 +17,7 @@ private:
   bool isAlwaysNotifySmoke = s_notificationState == 11 || s_notificationState == 12;
   bool isNotifyHygro = (s_notificationState != 0 || s_notificationState != 2) && (s_notificationState == 1 || s_notificationState == 3);
   bool isAlwaysNotifyHygro = s_notificationState == 11 || s_notificationState == 13;
-  String startTime = timeManager.getCurrentTime();
+  String startTime = timeManager.getCurrentTime().toString();
   String smokeNotificationTime = startTime;
   String calibrationNotificationTime = startTime;
   String heatNotificationTime = startTime;
@@ -35,7 +35,7 @@ public:
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(smokeNotificationTime))
       {
-        smokeNotificationTime = timeManager.getCurrentTime();
+        smokeNotificationTime = timeManager.getCurrentTime().toString();
         return true;
       }
     }
@@ -48,7 +48,7 @@ public:
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(calibrationNotificationTime))
       {
-        calibrationNotificationTime = timeManager.getCurrentTime();
+        calibrationNotificationTime = timeManager.getCurrentTime().toString();
         return true;
       }
     }
@@ -61,7 +61,7 @@ public:
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(heatNotificationTime))
       {
-        heatNotificationTime = timeManager.getCurrentTime();
+        heatNotificationTime = timeManager.getCurrentTime().toString();
         isHeatNotificationSent = true;
         return true;
       }
@@ -78,7 +78,7 @@ public:
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(coolNotificationTime))
       {
-        coolNotificationTime = timeManager.getCurrentTime();
+        coolNotificationTime = timeManager.getCurrentTime().toString();
         isCoolNotificationSent = true;
         return true;
       }
@@ -95,7 +95,7 @@ public:
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(humidityNotificationTime))
       {
-        humidityNotificationTime = timeManager.getCurrentTime();
+        humidityNotificationTime = timeManager.getCurrentTime().toString();
         isWetNotificationSent = true;
         return true;
       }
