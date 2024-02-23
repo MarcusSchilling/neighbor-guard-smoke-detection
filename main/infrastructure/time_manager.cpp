@@ -36,13 +36,6 @@ public:
         return Duration((other.seconds - this->seconds) + ((other.minutes - this->minutes) * 60) + ((other.hours - this->hours) * 60 * 60));
     }
 
-    // bool smallerTimeWithOffset(const Time &other, int16_t offset) const
-    // {
-    //     int16_t thisSeconds = this.hours * 60 * 60 + this.minutes * 60 + this.seconds;
-    //     int16_t otherSeconds = other.hours * 60 * 60 + other.minutes * 60 + other.seconds;
-    //     return thisSeconds < otherSeconds + offset;
-    // }
-
     String toString() const
     {
         char buffer[9];

@@ -15,20 +15,14 @@ InfluxDBClient influx{INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_BUCKET_NAME, INFLUXDB
 TimeSeriesDatabase::TimeSeriesDatabase()
 {
 }
-// Method to check if a bucket exists
+
 bool TimeSeriesDatabase::bucketExists(const String &bucketName, const String &namespaceName)
 {
-    // Get dedicated client for buckets management
     BucketsClient buckets = influx.getBucketsClient();
-    // Verify bucket does not exist
     if(buckets.checkBucketExists((namespaceName + bucketName).c_str())) {
         Serial.println("Bucket " + namespaceName + bucketName + " already exists");
-        // get reference
         Bucket b = buckets.findBucket((namespaceName + bucketName).c_str());
         return true; // Bucket exists
-
-        // // Delete bucket
-        // buckets.deleteBucket(b.getID());
     }
     else
     {
@@ -36,14 +30,11 @@ bool TimeSeriesDatabase::bucketExists(const String &bucketName, const String &na
     }
 }
 
-// Method to create a new bucket
 bool TimeSeriesDatabase::createBucket(const String &bucketName, const String &namespaceName, uint32_t &retention)
 {
-    // Get dedicated client for buckets management
     BucketsClient buckets = influx.getBucketsClient();
     Bucket b = buckets.createBucket((namespaceName + bucketName).c_str(), retention);
     if(!b) {
-        // some error occurred
         Serial.print("Bucket creating error: ");
         Serial.println(buckets.getLastErrorMessage());
         return false;
@@ -57,13 +48,11 @@ void TimeSeriesDatabase::initDatabaseConnection()
 {
     timeSync(TZ_INFO, "pool.ntp.org", "time.nis.gov");
 
-    // Check server connection
     if (influx.validateConnection())
     {
         Serial.print("Connected to InfluxDB: ");
         Serial.println(influx.getServerUrl());
 
-        // Check if the bucket exists, if not, create it
         if (!bucketExists(INFLUXDB_BUCKET, NAMESPACE))
         {
             if (createBucket(INFLUXDB_BUCKET, NAMESPACE, s_influxBucketRetention))
@@ -87,7 +76,6 @@ void TimeSeriesDatabase::initDatabaseConnection()
     }
 }
 
-// Methode zum Speichern der Sensorwerte
 void TimeSeriesDatabase::write(const Measurement &measurement)
 {
     Point sensor{"air-quality"};
@@ -133,7 +121,5 @@ void TimeSeriesDatabase::write(const Measurement &measurement)
         Serial.print("InfluxDB write failed: ");
         Serial.println(influx.getLastErrorMessage());
     }
-    // Serial.println("Waiting 1 second");
-    // delay(1000/s_updateRate);
 }
 #endif
