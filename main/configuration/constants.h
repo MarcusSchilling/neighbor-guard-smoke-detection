@@ -20,7 +20,7 @@
 // DHT11
 #include <DHT.h>
 #define DIGITALPIN D2
-#define DHTTYPE DHT11 // DHT11 or DHT22, depends on your sensor
+#define DHTTYPE DHT22 // DHT11 or DHT22, depends on your sensor
 #define isUseHygro true
 
 // -------------- System --------------

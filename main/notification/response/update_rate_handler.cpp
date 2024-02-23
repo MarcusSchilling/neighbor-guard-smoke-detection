@@ -7,6 +7,7 @@
 #include "../../configuration/config.h"
 #include <string>
 #include "./notification_state_handler.cpp"
+
 class UpdateRateHandler : public Handler
 {
 

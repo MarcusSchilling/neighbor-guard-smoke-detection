@@ -6,14 +6,13 @@
 #include <cstdio>
 #include "../../configuration/config.h"
 #include <string>
-#include "./get_variable_handler.cpp"
-#include "labeling/smoke_label_handler.cpp"
+#include "./restart_esp_handler.cpp"
 
 class NotificationRateHandler : public Handler
 {
 
 public:
-    NotificationRateHandler() : Handler("/notificationRate ([1-9]*\\.[0-9]*|[0-9]*)", new SmokeLabelHandler()){}; // new GetVariableHandler()){};
+    NotificationRateHandler() : Handler("/notificationRate ([1-9]*\\.[0-9]*|[0-9]*)", new RestartESPHandler()){};
 
     void execute(FB_msg &msg)
     {

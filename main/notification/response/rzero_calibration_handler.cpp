@@ -6,8 +6,8 @@
 #include <cstdio>
 #include "../../configuration/config.h"
 #include <string>
-#include "./update_rate_handler.cpp"
 #include "../../configuration/constants.h"
+#include "./update_rate_handler.cpp"
 
 class RZeroCalibrationHandler : public Handler
 {

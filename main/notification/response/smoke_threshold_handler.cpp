@@ -7,6 +7,7 @@
 #include "../../configuration/config.h"
 #include <string>
 #include "./hot_threshold_handler.cpp"
+
 class SmokeThresholdHandler : public Handler
 {
 

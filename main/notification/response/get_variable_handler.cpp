@@ -4,11 +4,13 @@
 #include "handler.hpp"
 #include "../telegram_bot.cpp"
 #include "../../configuration/config.h"
+#include "./labeling/smoke_label_handler.cpp"
+
 class GetVariableHandler : public Handler
 {
 
 public:
-    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", nullptr) {} // RestartESPHandler()
+    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", new SmokeLabelHandler()) {} // RestartESPHandler()
 
     void execute(FB_msg &msg)
     {

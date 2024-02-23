@@ -7,6 +7,7 @@
 #include "../../configuration/config.h"
 #include <string>
 #include "./humid_threshold_handler.cpp"
+
 class CoolThresholdHandler : public Handler
 {
 
