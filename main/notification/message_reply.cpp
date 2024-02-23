@@ -1,16 +1,32 @@
 #ifndef MESSAGE_REPLY_CPP
 #define MESSAGE_REPLY_CPP
 
-#include "../configuration/credentials.h"
+#include "../configuration/shared.credentials.h"
 #include "response/smoke_threshold_handler.cpp"
 
 #include <FastBot.h>
 FastBot fastBot{BOT_TOKEN};
+int32_t lastReadMessageId = 0;
+Time *startupTime = nullptr;
+TimeManager timeManager{};
 
 void newMsg(FB_msg &msg)
 {
-    SmokeThresholdHandler startHandler;
-    startHandler.handleRequest(msg);
+    if (!startupTime)
+    {
+        startupTime = new Time{timeManager.getCurrentTime()};
+    }
+    Time messageTime{msg.unix};
+    bool wasMessageSendAfterSensorStartup = messageTime > *startupTime;
+    if (wasMessageSendAfterSensorStartup)
+    {
+        SmokeThresholdHandler startHandler;
+        startHandler.handleRequest(msg);
+    }
+    else
+    {
+        telegramBot.sendMessage("The Sensor only processes messages send after startup.");
+    }
 }
 
 void setupMessageReply()

@@ -1,0 +1,36 @@
+version: '3.6'
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USER}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PWD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
+    ports:
+      - "${INFLUXDB_PORT}:8086"
+    volumes:
+      - influxdb_data:/etc/influxdb2:rw
+      - influxdb_data:/var/lib/influxdb2:rw
+    networks:
+      - proxy
+    labels:
+     - "traefik.enable=true"
+     - "traefik.docker.network=proxy"
+     - "traefik.frontend.rule=Host:${INFLUXDB_URL}"
+     - "traefik.port=${INFLUXDB_PORT}"
+volumes:
+  influxdb_data:
+    driver_opts:
+        type: none
+        device: ${PARENT_WORKING_DIRECTORY}
+        o: bind
+networks:
+  proxy:
+     external: true
