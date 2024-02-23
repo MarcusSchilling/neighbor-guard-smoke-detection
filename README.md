@@ -5,7 +5,7 @@ NeighborGuard is an innovative and proactive GitHub project aimed at providing a
 
 **Key Features:**
 
-🚀 **Real-time Smoke Detection:** NeighborGuard utilizes state-of-the-art smoke detection algorithms and a highly sensitive sensor, ensuring timely and accurate detection of smoke occurrences.
+🚀 **Real-time Smoke Detection:** NeighborGuard utilizes state-ofThe-art smoke detection algorithms and a highly sensitive sensor, ensuring timely and accurate detection of smoke occurrences.
 
 📱 **Instant Notifications:** Receive immediate alerts on your smartphone or connected device the moment smoke is detected in your vicinity. Never worry about smoke-related inconveniences again!
 

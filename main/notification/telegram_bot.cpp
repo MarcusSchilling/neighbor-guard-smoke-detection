@@ -1,8 +1,10 @@
-#ifndef TELEGRAM_BOT
-#define TELEGRAM_BOT
+#ifndef TELEGRAM_BOT_CPP
+#define TELEGRAM_BOT_CPP
 
-#include "../configuration/credentials.h"
+#include "../configuration/shared.credentials.h"
 #include <FastBot.h>
+#define FB_DYNAMIC // enable dynamic mode: the library takes longer to execute the request, but takes up 10 kb less memory in SRAM
+
 class TelegramBot
 {
 private:
@@ -21,6 +23,16 @@ public:
     void sendMessage(String message)
     {
         fastBotTelegram.sendMessage(message);
+    }
+
+    void deleteMessage(int32_t msgid)
+    {
+        fastBotTelegram.deleteMessage(msgid);
+    }
+
+    int32_t lastUsrMsg()
+    {
+        return fastBotTelegram.lastUsrMsg();
     }
 };
 

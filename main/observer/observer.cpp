@@ -1,12 +1,18 @@
-#ifndef OBSERVER
-#define OBSERVER
+#ifndef OBSERVER_CPP
+#define OBSERVER_CPP
 
-#include <iostream>
+// #include <iostream>
 #include <vector>
 #include "../domain/measurement.hpp"
+#include "../notification/notification_policy.cpp"
+#include "../notification/telegram_bot.cpp"
+
+static TelegramBot telegramBot;
+static NotificationPolicy notificationPolicy;
 
 class Observer
 {
+protected:
 public:
     virtual void update(const Measurement &measurement) = 0;
 };
@@ -29,6 +35,7 @@ public:
             if (*it == observer)
             {
                 observers.erase(it);
+                delete observer;
                 break;
             }
         }
