@@ -7,6 +7,7 @@
 #include "../../configuration/config.h"
 #include <string>
 #include "./cool_threshold_handler.cpp"
+
 class HotThresholdHandler : public Handler
 {
 

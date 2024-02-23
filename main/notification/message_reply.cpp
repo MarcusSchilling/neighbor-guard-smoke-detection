@@ -25,13 +25,13 @@ void newMsg(FB_msg &msg)
     }
     else
     {
-        telegramBot.sendMessage("The Sensor only processes messages send after startup.");
+        telegramBot.sendMessage("The Sensor only processes messages sent after startup.");
     }
 }
 
 void setupMessageReply()
 {
-    fastBot.sendMessage("Startup Completed");
+    telegramBot.sendMessage("Startup Completed");
     fastBot.attach(newMsg);
 }
 

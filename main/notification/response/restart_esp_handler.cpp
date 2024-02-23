@@ -4,7 +4,8 @@
 #include "handler.hpp"
 #include "../telegram_bot.cpp"
 #include "../../configuration/config.h"
-#include "get_variable_handler.cpp"
+#include "./get_variable_handler.cpp"
+
 class RestartESPHandler : public Handler
 {
 

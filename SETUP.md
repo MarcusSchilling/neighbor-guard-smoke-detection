@@ -1,11 +1,46 @@
 # Setup
 
-Create file credentials.h in the main folder. Containing the following variables.
+Create file credentials.h in the ```main/configuration``` folder. Containing the following variables as well as anything confidential.
 ```cpp
-#define WIFI_SSID "WLAN-NAME"
-#define WIFI_PASS "WLAN-PASSWORD"
+// ------------------ WiFi ------------------
+#define WIFI_SSID "WIFI-NAME"
+#define WIFI_PASS "WIFI-PASSWORD"
+#define ESP_HOSTNAME "HOSTNAME"
+#define OTA_PASS "PASSWORD-FOR-OTA"
+
+// ------------------ Telegram Bot ------------------
 #define BOT_TOKEN "TOKEN-Telegram-Bot"
 #define CHAT_ID "Chat-ID-Telegram"
+
+// ------------------ InfluxDB ------------------
+// only when using your own influxDB server, otherwise see shared.credentials.h
+#define INFLUXDB_ORG "ORGANIZATION_NAME"
+#define INFLUXDB_DATABASE "DATABASE_NAME"
+#define INFLUXDB_PORT "8086"
+#define INFLUXDB_URL "http://URL:8086"
+#define INFLUXDB_USER "USERNAME"
+#define INFLUXDB_PWD "LOGIN_PASSWORD"
+#define INFLUXDB_TOKEN "API_TOKEN"
+#define INFLUXDB_BUCKET "BUCKET_NAME"
+#define NAMESPACE "NAMESPACE_FOR_BUCKET_CREATION"
+```
+Create file shared.credentials.h in the ```main/configuration``` folder. Containing the following variables as well as any shared credentials (i.e. shared influxDB instance).
+```cpp
+
+// ------------------ InfluxDB ------------------
+#define INFLUXDB_BUCKET_NAME NAMESPACE INFLUXDB_BUCKET
+
+// when using a shared influxDB server
+// this will overwrite variables defined in credentials.h
+#define INFLUXDB_ORG "ORGANIZATION_NAME"
+#define INFLUXDB_DATABASE "DATABASE_NAME"
+#define INFLUXDB_PORT "PORT"
+#define INFLUXDB_URL "http://URL:INFLUXDB_PORT"
+#define INFLUXDB_USER "USERNAME"
+#define INFLUXDB_PWD "LOGIN_PASSWORD"
+#define INFLUXDB_TOKEN "API_TOKEN"
+#define INFLUXDB_BUCKET "BUCKET_NAME"
+#define NAMESPACE "NAMESPACE_FOR_BUCKET_CREATION"
 ```
 
 # Installation
