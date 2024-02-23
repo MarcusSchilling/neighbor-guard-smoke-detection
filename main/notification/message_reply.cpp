@@ -5,6 +5,7 @@
 #include "response/smoke_threshold_handler.cpp"
 
 #include <FastBot.h>
+
 FastBot fastBot{BOT_TOKEN};
 int32_t lastReadMessageId = 0;
 Time *startupTime = nullptr;

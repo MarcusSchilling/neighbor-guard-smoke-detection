@@ -10,7 +10,7 @@ class GetVariableHandler : public Handler
 {
 
 public:
-    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", new SmokeLabelHandler()) {} // RestartESPHandler()
+    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", new SmokeLabelHandler()) {}
 
     void execute(FB_msg &msg)
     {
@@ -22,7 +22,6 @@ public:
             String message = "";
             if (std::holds_alternative<int>(value))
             {
-                Serial.print("Step 4");
                 int intValue = std::get<int>(value);
                 message = variableName + ": " + String(intValue);
             }
@@ -36,7 +35,6 @@ public:
                 double doubleValue = std::get<double>(value);
                 message = variableName + ": " + String(doubleValue, 2); // Display with 2 decimal places
             }
-            Serial.print("Step 5");
             telegramBot.sendMessage(message);
         }
         else
@@ -49,7 +47,6 @@ public:
             String messageReply = "Variable not defined. Currently defined variables:\n" + configVariables;
             telegramBot.sendMessage(messageReply);
         }
-        Serial.print("Step 6");
         telegramBot.deleteMessage(msg.messageID);
     }
 };

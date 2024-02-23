@@ -1,3 +1,8 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#include "./config.h"
+
 // -------------- Notification Policy --------------
 
 // Smoke Detection
@@ -20,10 +25,13 @@
 // DHT11
 #include <DHT.h>
 #define DIGITALPIN D2
+#ifndef DHTTYPE
 #define DHTTYPE DHT22 // DHT11 or DHT22, depends on your sensor
+#endif
 #define isUseHygro true
 
 // -------------- System --------------
 #define BUADRATE 115200
 // Time zone info
 #define TZ_INFO "UTC1"
+#endif

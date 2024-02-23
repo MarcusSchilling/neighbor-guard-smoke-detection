@@ -5,6 +5,7 @@ Create file credentials.h in the ```main/configuration``` folder. Containing the
 // ------------------ WiFi ------------------
 #define WIFI_SSID "WIFI-NAME"
 #define WIFI_PASS "WIFI-PASSWORD"
+// ------------------ WiFi OPTIONAL ------------------
 #define ESP_HOSTNAME "HOSTNAME"
 #define OTA_PASS "PASSWORD-FOR-OTA"
 
@@ -73,3 +74,6 @@ INFLUXDB_PWD=<Add your password here>
 INFLUXDB_TOKEN=<Add your influxdb token here>
 PARENT_WORKING_DIRECTORY=<Add your desired influxdb data directory here>
 ```
+
+# Sensor Configuration
+Add `#define DHTTYPE DHT11` or `#define DHTTYPE DHT22` to `configuration/credentials.h` based on which sonsor you are using.
