@@ -4,13 +4,13 @@
 #include "handler.hpp"
 #include "../telegram_bot.cpp"
 #include "../../configuration/config.h"
-#include "./labeling/smoke_label_handler.cpp"
+#include "./get_measurement_handler.cpp"
 
 class GetVariableHandler : public Handler
 {
 
 public:
-    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", new SmokeLabelHandler()) {}
+    GetVariableHandler() : Handler("/get ([a-zA-Z]*)", new GetMeasurementHandler()) {}
 
     void execute(FB_msg &msg)
     {
@@ -47,7 +47,6 @@ public:
             String messageReply = "Variable not defined. Currently defined variables:\n" + configVariables;
             telegramBot.sendMessage(messageReply);
         }
-        telegramBot.deleteMessage(msg.messageID);
     }
 };
 

@@ -16,5 +16,6 @@ Chain Link |Command | Usage | Function | Variable update | Unit
 12 | `notificationRate` | /notificationRate 30   | Change the rate at which a notification is sent via telegram. | `s_notificationRate` | Minutes
 13 | `restart` | /restart  | Restart the ESP microcontroller. This also resets the configuration.  | - | -
 14 | `get` | /get cppm   | Return the configuration variable value via telegram. <br /> cppm: `s_cppmThreshold` <br /> hot: `s_hotTempThershold` <br /> cool: `s_coolTempThershold` <br /> humid: `s_humidThershold` <br /> dry: `s_dryThershold` <br /> isCal: `s_isGasSensorCalibration` <br /> startCal: `s_startCalibration` <br /> endCal: `s_endCalibration` <br /> rZero: `s_rZeroCalibration` <br /> updateRate: `s_updateRate` <br /> notifState: `s_notificationState` <br /> notifRate: `s_notificationRate`| - | -
-15 | `smoke` | /smoke  | Label the current timeseries data point with smoke.  | `s_smokeLabel` | _bool_
-16 | `clean` | /clean  | Label the current timeseries data point as clean air, meaning no smoke.  | `s_cleanAirLabel` | _bool_
+15 | `measure` | /measure  | Return last measured sensor data.  | - | -
+16 | `smoke` | /smoke  | Label the current timeseries data point with smoke.  | `s_smokeLabel` | _bool_
+17 | `clean` | /clean  | Label the current timeseries data point as clean air, meaning no smoke.  | `s_cleanAirLabel` | _bool_
