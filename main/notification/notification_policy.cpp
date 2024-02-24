@@ -72,6 +72,7 @@ public:
     }
     return false;
   }
+
   bool notifyOfCool(const Measurement &measurement)
   {
     if (measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < s_coolTempThershold && isNotifyHygro && measurement.readTemperature() != 0)
@@ -89,6 +90,7 @@ public:
     }
     return false;
   }
+
   bool notifyOfHumidity(const Measurement &measurement)
   {
     if ((measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > s_humidThershold && isNotifyHygro && measurement.readHumidity() != 0) || isAlwaysNotifyHygro)
