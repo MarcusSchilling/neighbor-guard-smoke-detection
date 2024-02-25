@@ -5,6 +5,7 @@
 #include <map>
 #include <variant>
 #include "constants.h"
+#include <MQ135.h>
 
 static std::map<String, std::variant<int, double, bool>> configList;
 
@@ -16,10 +17,10 @@ int s_dryThershold = 40;               // [%]
 bool s_isGasSensorCalibration = false; // set to true to calibrate between @s_startCalibration and @s_endCalibration
 int s_startCalibration = 5;            // [HH]
 int s_endCalibration = 5;              // [HH]
-double s_rZeroCalibration = 270.7;      // [Ohm] Gas sensor calibration rZero  !!TODO!! change to double in rzero_calibration_handler.cpp !!TODO!!
+double s_rZeroCalibration = 270.7;     // [Ohm] Gas sensor calibration rZero  !!TODO!! change to double in rzero_calibration_handler.cpp !!TODO!!
 double s_updateRate = 0.25;            // [Hz] 1Hz=1s delay; 2Hz=>500ms;
 bool s_smokeLabel = false;             // [True/False]
-bool s_cleanAirLabel = false;             // [True/False]
+bool s_cleanAirLabel = false;          // [True/False]
 // Telegram notification policy
 // 0: Mute --> send no notifications
 // 1: Normal (default) --> notifiy when threshold policy met @s_notificationRate
@@ -29,9 +30,8 @@ bool s_cleanAirLabel = false;             // [True/False]
 // 12: Debug Gas Sensor --> notify of every gas sensor reading @s_updateRate
 // 13: Debug Hygrometer --> notify of every hygrometer reading at @s_updateRate
 int s_notificationState = 1;
-double s_notificationRate = 5.0;                               // [Min] Telegram notification rate
-static MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCalibration); // calibrated sensor
-uint32_t s_influxBucketRetention = 365*24*3600; // in seconds
+double s_notificationRate = 5.0;                    // [Min] Telegram notification rate
+uint32_t s_influxBucketRetention = 365 * 24 * 3600; // in seconds
 
 // Dictionary of configuration variable for /return-vaariable message reply
 void initConfigList()

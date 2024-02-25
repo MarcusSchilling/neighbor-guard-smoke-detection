@@ -19,7 +19,8 @@ TimeSeriesDatabase::TimeSeriesDatabase()
 bool TimeSeriesDatabase::bucketExists(const String &bucketName, const String &namespaceName)
 {
     BucketsClient buckets = influx.getBucketsClient();
-    if(buckets.checkBucketExists((namespaceName + bucketName).c_str())) {
+    if (buckets.checkBucketExists((namespaceName + bucketName).c_str()))
+    {
         Serial.println("Bucket " + namespaceName + bucketName + " already exists");
         Bucket b = buckets.findBucket((namespaceName + bucketName).c_str());
         return true; // Bucket exists
@@ -34,7 +35,8 @@ bool TimeSeriesDatabase::createBucket(const String &bucketName, const String &na
 {
     BucketsClient buckets = influx.getBucketsClient();
     Bucket b = buckets.createBucket((namespaceName + bucketName).c_str(), retention);
-    if(!b) {
+    if (!b)
+    {
         Serial.print("Bucket creating error: ");
         Serial.println(buckets.getLastErrorMessage());
         return false;
@@ -79,7 +81,7 @@ void TimeSeriesDatabase::initDatabaseConnection()
 void TimeSeriesDatabase::write(const Measurement &measurement)
 {
     Point sensor{"air-quality"};
-    if (measurement.getSensor() == SensorType::MQ135)
+    if (measurement.getSensor() == SensorType::mq135)
     {
         sensor.addTag("sensor_type", "MQ135");
         sensor.addField("R-Zero", measurement.getRZero());
@@ -101,7 +103,7 @@ void TimeSeriesDatabase::write(const Measurement &measurement)
         s_smokeLabel = false;
         s_cleanAirLabel = false;
     }
-    else if (measurement.getSensor() == SensorType::DHT)
+    else if (measurement.getSensor() == SensorType::dht)
     {
         sensor.addTag("sensor_type", "DHT11");
         sensor.addField("temperature", measurement.readTemperature());

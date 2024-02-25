@@ -31,7 +31,7 @@ public:
 
   bool notifyOfSmoke(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::MQ135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > s_cppmThreshold && isNotifySmoke) || isAlwaysNotifySmoke)
+    if (measurement.getSensor() == SensorType::mq135 && (timeManager.isTimeInRange(TIME_START_SMOKE_DETECTION, TIME_END_SMOKE_DETECTION) && measurement.getCorrectedPPM() > s_cppmThreshold && isNotifySmoke) || isAlwaysNotifySmoke)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(smokeNotificationTime))
       {
@@ -44,7 +44,7 @@ public:
 
   bool notifyOfCalibration(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::MQ135 && timeManager.isTimeInRange(s_startCalibration, s_endCalibration) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION && measurement.getRZero() < THRESHOLD_UPPER_CALIBRATION && s_isGasSensorCalibration)
+    if (measurement.getSensor() == SensorType::mq135 && timeManager.isTimeInRange(s_startCalibration, s_endCalibration) && measurement.getRZero() > THRESHOLD_LOWER_CALIBRATION && measurement.getRZero() < THRESHOLD_UPPER_CALIBRATION && s_isGasSensorCalibration)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(calibrationNotificationTime))
       {
@@ -57,7 +57,7 @@ public:
 
   bool notifyOfHeat(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isHeatNotificationSent && measurement.readTemperature() > s_hotTempThershold && measurement.readTemperature() != 0 && isNotifyHygro)
+    if (measurement.getSensor() == SensorType::dht && !isHeatNotificationSent && measurement.readTemperature() > s_hotTempThershold && measurement.readTemperature() != 0 && isNotifyHygro)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(heatNotificationTime))
       {
@@ -75,7 +75,7 @@ public:
 
   bool notifyOfCool(const Measurement &measurement)
   {
-    if (measurement.getSensor() == SensorType::DHT && !isCoolNotificationSent && measurement.readTemperature() < s_coolTempThershold && isNotifyHygro && measurement.readTemperature() != 0)
+    if (measurement.getSensor() == SensorType::dht && !isCoolNotificationSent && measurement.readTemperature() < s_coolTempThershold && isNotifyHygro && measurement.readTemperature() != 0)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(coolNotificationTime))
       {
@@ -93,7 +93,7 @@ public:
 
   bool notifyOfHumidity(const Measurement &measurement)
   {
-    if ((measurement.getSensor() == SensorType::DHT && !isWetNotificationSent && measurement.readHumidity() > s_humidThershold && isNotifyHygro && measurement.readHumidity() != 0) || isAlwaysNotifyHygro)
+    if ((measurement.getSensor() == SensorType::dht && !isWetNotificationSent && measurement.readHumidity() > s_humidThershold && isNotifyHygro && measurement.readHumidity() != 0) || isAlwaysNotifyHygro)
     {
       if (s_notificationRate * 60 <= timeManager.getSecondsPassed(humidityNotificationTime))
       {
