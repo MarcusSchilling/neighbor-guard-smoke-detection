@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 #include "./config.h"
-
+#include <MQ135.h>
 // -------------- Notification Policy --------------
 
 // Smoke Detection
@@ -21,12 +21,14 @@
 #define ANALOGPIN 0
 #define DEFAULT_TEMP 22.0 // °c
 #define DEFAULT_HUM 30.0  // %
+extern double s_rZeroCalibration;
+static MQ135 gasSensor = MQ135(ANALOGPIN, s_rZeroCalibration); // calibrated sensor
 
 // DHT11
 #include <DHT.h>
 #define DIGITALPIN D2
 #ifndef DHTTYPE
-    #define DHTTYPE DHT22 // DHT11 or DHT22, depends on your sensor
+#define DHTTYPE DHT22 // DHT11 or DHT22, depends on your sensor
 #endif
 #define isUseHygro true
 

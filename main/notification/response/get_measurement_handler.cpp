@@ -7,6 +7,7 @@
 #include "../../observer/data_logger.hpp"
 #include "./labeling/smoke_label_handler.cpp"
 
+extern Measurement lastMeasurement;
 class GetMeasurementHandler : public Handler
 {
 
@@ -15,16 +16,14 @@ public:
 
     void execute(FB_msg &msg)
     {
-        // telegramBot.sendMessage(
-        //     lastMeasurement.toString({
-        //     MeasurementAttributes::rZero,
-        //     MeasurementAttributes::correctedRZero,
-        //     MeasurementAttributes::ppm,
-        //     MeasurementAttributes::cppm,
-        //     MeasurementAttributes::resistance,
-        //     MeasurementAttributes::temperature,
-        //     MeasurementAttributes::humidity
-        //     }));
+        telegramBot.sendMessage(
+            lastMeasurement.toString({MeasurementAttributes::rZero,
+                                      MeasurementAttributes::correctedRZero,
+                                      MeasurementAttributes::ppm,
+                                      MeasurementAttributes::cppm,
+                                      MeasurementAttributes::resistance,
+                                      MeasurementAttributes::temperature,
+                                      MeasurementAttributes::humidity}));
     }
 };
 

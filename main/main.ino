@@ -18,6 +18,7 @@
 #include "configuration/constants.h"
 #include "configuration/shared.credentials.h"
 #include "configuration/config.h"
+#include "configuration/constants.h"
 
 // General Sensor Configuration
 #include "domain/measurement.hpp"
@@ -30,6 +31,7 @@
 
 WifiConnection wifiConnection{};
 DHT hygroSensor = DHT(DIGITALPIN, DHTTYPE);
+extern MQ135 gasSensor;
 
 bool isCalibration = true;
 
@@ -68,8 +70,8 @@ void setup()
       float ppm = gasSensor.getPPM();
       float cppm = gasSensor.getCorrectedPPM(temperature, humidity);
       float resistance = gasSensor.getResistance();
-      Measurement measurementHygro(SensorType::DHT, rz, crz, ppm, cppm, resistance, temperature, humidity);
-      Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance, temperature, humidity);
+      Measurement measurementHygro(SensorType::dht, rz, crz, ppm, cppm, resistance, temperature, humidity);
+      Measurement measurementGas(SensorType::mq135, rz, crz, ppm, cppm, resistance, temperature, humidity);
       Serial.println("Initialization success!");
       isCalibration = false;
       break;
@@ -100,8 +102,8 @@ void setup()
       cppm = gasSensor.getCorrectedPPM(temperature, humidity);
       crz = gasSensor.getCorrectedRZero(temperature, humidity);
     }
-    Measurement measurementHygro(SensorType::DHT, rz, crz, ppm, cppm, resistance, temperature, humidity);
-    Measurement measurementGas(SensorType::MQ135, rz, crz, ppm, cppm, resistance, temperature, humidity);
+    Measurement measurementHygro(SensorType::dht, rz, crz, ppm, cppm, resistance, temperature, humidity);
+    Measurement measurementGas(SensorType::mq135, rz, crz, ppm, cppm, resistance, temperature, humidity);
 
     subject.notify(measurementGas);
     subject.notify(measurementHygro);
