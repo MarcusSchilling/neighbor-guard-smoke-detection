@@ -62,8 +62,6 @@ public:
     TimeManager()
     {
         timeClient.begin();
-        // Set the offset for Central European Summer Time (CEST).
-        timeClient.setTimeOffset(7200); // 7200 seconds correspond to 2 hours offset to GMT
     }
 
     bool isTimeInRange(int startHour, int endHour)
@@ -75,6 +73,7 @@ public:
 
     time_t getEpochTime()
     {
+        bool worked = timeClient.forceUpdate();
         return timeClient.getEpochTime();
     }
 
