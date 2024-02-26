@@ -8,17 +8,17 @@
 
 FastBot fastBot{BOT_TOKEN};
 int32_t lastReadMessageId = 0;
-Time *startupTime = nullptr;
 TimeManager timeManager{};
+time_t startupTime = 0;
 
 void newMsg(FB_msg &msg)
 {
     if (!startupTime)
     {
-        startupTime = new Time{timeManager.getCurrentTime()};
+        const int startupOffset = 100; // if not used the first message will fail as it is send before the startup time is received here
+        startupTime = timeManager.getEpochTime() - startupOffset;
     }
-    Time messageTime{msg.unix};
-    bool wasMessageSendAfterSensorStartup = messageTime > *startupTime;
+    bool wasMessageSendAfterSensorStartup = msg.unix > startupTime;
     if (wasMessageSendAfterSensorStartup)
     {
         SmokeThresholdHandler startHandler;
